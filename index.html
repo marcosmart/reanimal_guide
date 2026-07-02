@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reanimal — Complete Collectible Guide, Tracker &amp; Boss Strategies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bog:#131511; --panel:#1c1f19; --panel2:#22261e; --line:#33382c;
+    --ink:#e8e2d0; --dim:#9a9684; --amber:#e3a53f; --red:#c04a35;
+    --mask:#e3a53f; --poster:#5fa8a0; --statue:#a487cf; --critter:#8fae52;
+    --coffin:#c04a35; --chair:#8f8b7a; --boss:#d96b6b;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bog); color:var(--ink);
+    font-family:'Public Sans',system-ui,sans-serif;
+    font-size:15px; line-height:1.55;
+    background-image:radial-gradient(ellipse at 50% -10%, #23271d 0%, var(--bog) 60%);
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:20px 14px 90px;}
+  header{margin-bottom:18px;}
+  .eyebrow{
+    font-family:'Special Elite',monospace; color:var(--amber);
+    letter-spacing:.18em; text-transform:uppercase; font-size:.72rem;
+  }
+  h1{
+    font-family:'Special Elite',monospace; font-weight:400;
+    font-size:clamp(1.7rem,6vw,2.6rem); line-height:1.1; margin:.25em 0 .35em;
+  }
+  .sub{color:var(--dim); max-width:60ch;}
+  .sub a{color:var(--poster);}
+
+  .warn{
+    margin:16px 0; padding:12px 14px; border-left:4px solid var(--red);
+    background:linear-gradient(90deg, rgba(192,74,53,.14), transparent 70%);
+    border-radius:0 8px 8px 0; font-size:.9rem;
+  }
+  .warn strong{color:#e88b74;}
+
+  .progress-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:14px; margin:14px 0 10px;
+  }
+  .prog-top{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;}
+  .prog-title{font-family:'Special Elite',monospace; font-size:1.05rem;}
+  .prog-count{font-family:'Special Elite',monospace; color:var(--amber); font-size:1.3rem;}
+  .bar{height:10px; background:#0d0f0b; border-radius:6px; overflow:hidden; margin:10px 0 12px; border:1px solid var(--line);}
+  .bar > div{height:100%; width:0%; background:linear-gradient(90deg,#7a5a1f,var(--amber)); transition:width .4s ease;}
+  .cats{display:grid; grid-template-columns:repeat(auto-fit,minmax(118px,1fr)); gap:8px;}
+  .cat{
+    background:var(--panel2); border:1px solid var(--line); border-radius:8px;
+    padding:8px 10px; font-size:.78rem; display:flex; flex-direction:column; gap:2px;
+  }
+  .cat b{font-size:.95rem; font-family:'Special Elite',monospace;}
+  .cat .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}
+
+  .toolbar{
+    position:sticky; top:0; z-index:20; background:rgba(19,21,17,.94);
+    backdrop-filter:blur(6px); padding:10px 0; margin:6px -2px 14px;
+    border-bottom:1px solid var(--line);
+    display:flex; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  .toolbar::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto; border:1px solid var(--line); background:var(--panel);
+    color:var(--dim); border-radius:999px; padding:6px 13px; font-size:.8rem;
+    font-family:inherit; cursor:pointer; white-space:nowrap;
+  }
+  .chip.active{color:#141511; background:var(--amber); border-color:var(--amber); font-weight:700;}
+  .chip:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+
+  .chapter{margin:26px 0 8px;}
+  .ch-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+    border-bottom:1px dashed var(--line); padding-bottom:6px; margin-bottom:12px;
+  }
+  .ch-head h2{font-family:'Special Elite',monospace; font-weight:400; font-size:1.15rem;}
+  .ch-head .ch-count{font-family:'Special Elite',monospace; color:var(--dim); font-size:.85rem;}
+
+  .item{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:14px; margin-bottom:12px; transition:opacity .25s ease, border-color .25s;
+  }
+  .item.done{opacity:.55; border-color:#2a2e24;}
+  .item.done .i-name{text-decoration:line-through; text-decoration-color:var(--amber);}
+  .i-top{display:flex; gap:12px; align-items:flex-start;}
+  .i-check{flex:0 0 auto; margin-top:2px;}
+  .i-check input{width:24px; height:24px; accent-color:var(--amber); cursor:pointer;}
+  .i-body{flex:1; min-width:0;}
+  .badges{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:4px;}
+  .badge{
+    font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:2px 8px; border-radius:4px; font-weight:700; color:#131511;
+  }
+  .b-mask{background:var(--mask);} .b-poster{background:var(--poster);}
+  .b-statue{background:var(--statue);} .b-critter{background:var(--critter);}
+  .b-coffin{background:var(--coffin); color:#fbe9e4;} .b-chair{background:var(--chair);}
+  .b-boss{background:var(--boss); color:#2a0d0d;}
+  .b-miss{background:transparent; color:#e88b74; border:1px solid var(--red);}
+  .i-name{font-weight:700; font-size:1rem; margin-bottom:4px;}
+  .i-desc{color:var(--ink); font-size:.9rem;}
+  .i-desc ol{margin:6px 0 0 18px;}
+  .i-desc li{margin-bottom:4px;}
+  .i-tip{
+    margin-top:8px; font-size:.83rem; color:var(--dim);
+    border-left:3px solid var(--line); padding-left:9px;
+  }
+  .imgs{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .imgs a{flex:1 1 200px; max-width:340px; display:block;}
+  .imgs img{
+    width:100%; border-radius:8px; border:1px solid var(--line); display:block;
+    background:#0d0f0b; aspect-ratio:16/9; object-fit:cover;
+  }
+  .img-cap{font-size:.7rem; color:var(--dim); margin-top:6px;}
+
+  .bosses-intro{color:var(--dim); font-size:.9rem; margin-bottom:12px; max-width:62ch;}
+
+  .footer-note{color:var(--dim); font-size:.8rem; margin-top:34px; border-top:1px solid var(--line); padding-top:14px;}
+  .footer-note a{color:var(--poster);}
+  .reset{
+    margin-top:12px; background:transparent; border:1px solid var(--red); color:#e88b74;
+    border-radius:8px; padding:8px 14px; cursor:pointer; font-family:inherit; font-size:.85rem;
+  }
+  .savestate{font-size:.75rem; color:var(--dim); margin-left:10px;}
+  @media (max-width:520px){
+    .imgs a{flex-basis:100%; max-width:100%;}
+    body{font-size:14.5px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;} html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Reanimal · Nintendo Switch 2 · 100% Tracker</div>
+    <h1>Every Mask, Every Discoverable &amp; Every Boss</h1>
+    <p class="sub">All 63 pickups across the 9 chapters: 18 Masks, 20 Posters, 5 Hidden Rabbit Statues, 5 Critters, 5 Coffins and 10 Rest Your Legs seats, plus strategies for all 6 main bosses at the bottom. Each pickup also counts as a Secret (47 in total). Tick items as you collect them and your progress is saved automatically. Tap a screenshot to open it full size.</p>
+  </header>
+
+  <div class="warn">
+    <strong>Missables warning:</strong> the 5 Coffins (secret ending) and the 5 Hidden Rabbit Statues (which spawn the Rabbit Head Mask in Chapter 7) must all be found in a <strong>single playthrough</strong>. Collecting them via chapter select does not count. Everything else can be mopped up later via New Game &gt; empty profile &gt; chapter select. Items marked <span style="color:#e88b74">MISSABLE</span> below are the ones to be careful with.
+  </div>
+
+  <div class="progress-card">
+    <div class="prog-top">
+      <span class="prog-title">Collection progress</span>
+      <span class="prog-count"><span id="doneCount">0</span> / <span id="totalCount">63</span></span>
+    </div>
+    <div class="bar"><div id="mainBar"></div></div>
+    <div class="cats" id="catGrid"></div>
+  </div>
+
+  <nav class="toolbar" id="filters" aria-label="Filter by collectible type"></nav>
+
+  <main id="list"></main>
+
+  <section class="chapter" id="bossSection">
+    <div class="ch-head"><h2>Boss Strategies · How to beat all 6</h2><span class="ch-count" id="bossCount">0/6 beaten</span></div>
+    <p class="bosses-intro">Six main bosses stand between you and the credits, alongside a handful of easy mini encounters. Most fights are about running, hiding or a set-piece rather than raw combat, so knowing the trick in advance saves a lot of deaths. Tick each one off as you beat it (bosses do not count towards the 63 collectibles).</p>
+    <div id="bossList"></div>
+  </section>
+
+  <div class="footer-note">
+    <p>Mask names, order and locations follow the IGN mask guide supplied by you, cross-referenced with the PowerPyx chronological route (screenshots © PowerPyx, linked from <a href="https://www.powerpyx.com/reanimal-all-collectible-locations-guide/" target="_blank" rel="noopener">their guide</a>). Posters, statues, coffins, critters and seats follow PowerPyx; boss strategies are based on the Power Up Gaming boss guide and chapter walkthroughs. If an image does not load, use the source link for the full gallery. Note: some guides place the war hospital at the end of Chapter 7 rather than the start of Chapter 8; the physical route order is identical either way.</p>
+    <button class="reset" id="resetBtn">Reset all progress</button>
+    <span class="savestate" id="saveState"></span>
+  </div>
+</div>
+<script>
+const IMG = n => `https://www.powerpyx.com/wp-content/uploads/reanimal-collectible-${n}.jpg`;
+
+const CHAPTERS = [
+  "Chapter 1 · Dead in the Water",
+  "Chapter 2 · The Cleaning House",
+  "Chapter 3 · After the Flood",
+  "Chapter 4 · No Shelter",
+  "Chapter 5 · Down in a Hole",
+  "Chapter 6 · Nobody Left Behind",
+  "Chapter 7 · The Spoils",
+  "Chapter 8 · The Watcher"
+];
+
+const TYPES = {
+  mask:   {label:"Mask",   cls:"b-mask",   color:"var(--mask)"},
+  poster: {label:"Poster", cls:"b-poster", color:"var(--poster)"},
+  statue: {label:"Rabbit Statue", cls:"b-statue", color:"var(--statue)"},
+  critter:{label:"Critter",cls:"b-critter",color:"var(--critter)"},
+  coffin: {label:"Coffin", cls:"b-coffin", color:"var(--coffin)"},
+  chair:  {label:"Rest Your Legs", cls:"b-chair", color:"var(--chair)"}
+};
+
+const DATA = [
+// ---------- CHAPTER 1 ----------
+{id:"m1", ch:0, type:"mask", name:"Mask 1 of 18 · Bird Head Mask (Mill sewers)",
+ desc:"Right after passing through the giant fan and climbing a ladder in the Mill sewer section, IGNORE the path towards your missing friend. Go LEFT instead to find a door leading outside, then squeeze through the crack in the wall at the end of the metal ledge. The Bird Head Mask sits in a box on the other side.",
+ imgs:[1]},
+{id:"c1", ch:0, type:"chair", name:"Seat 1 of 10 · Chair by the power switch",
+ desc:"Shortly after Mask 1 you reach a big pipe you must cross, which requires turning on the power. The chair is in the same room as the power switch, right next to a computer. Sit on it.",
+ imgs:[2]},
+{id:"m2", ch:0, type:"mask", name:"Mask 2 of 18 · Worm (Guts) Head Mask (boiler room)",
+ desc:"In the Mill, right after completing the spinning boiler puzzle, enter the next room full of lockers. Open the steaming locker on the right side, directly opposite the door you entered through, and walk THROUGH it into a secret washroom. The mask, which looks like a knot of worms or guts, lies under the sink.",
+ imgs:[3,"3-2"]},
+{id:"p1", ch:0, type:"poster", name:"Poster 1 of 20 · Behind the two chairs",
+ desc:"Outside, after climbing another ladder, you see a man walk into an alley. Do NOT follow him yet. Pass the two rails and go around the corner to find two chairs. The poster is on the wall behind them.",
+ tip:"Two bonuses here: sit on the free chair (Seat 2 below) and kick the chair with the man on it for the Dark Tourism trophy.",
+ imgs:["4-6"]},
+{id:"c2", ch:0, type:"chair", name:"Seat 2 of 10 · Chair beside the sitting man",
+ desc:"Same spot as Poster 1: two chairs around the corner past the rails. Sit on the empty one.",
+ imgs:["4-6"]},
+{id:"p2", ch:0, type:"poster", name:"Poster 2 of 20 · Courtyard, upper right door",
+ desc:"You reach a courtyard with the train tracks, a draisine (minecart) and three doors: one left, two right. Go through the UPPER right door, the one with a light above it. Inside, the man walks through another door; the poster is on the wall to the LEFT of that door.",
+ imgs:[7]},
+{id:"m3", ch:0, type:"mask", name:"Mask 3 of 18 · Conch (Oyster) Head Mask (near the draisine)",
+ desc:"In the same train tracks and draisine courtyard, take the upper platform route on the RIGHT-HAND side, past the restroom. If the way is locked, first grab the plunger beside the body in the restroom and use it on the glowing toilet to fish out a key, then enter the lower right door with NO light above it. The route leads to a secluded room where the mask sits on the floor, beneath the table with the bomb.",
+ imgs:[8]},
+{id:"c3", ch:0, type:"chair", name:"Seat 3 of 10 · Behind the locked left door",
+ desc:"Back in the courtyard, open the LEFT door with the key from the toilet. Jump over the gap inside and the chair is directly in front of you.",
+ imgs:[9]},
+{id:"cf1", ch:0, type:"coffin", name:"Coffin 1 of 5 · Beyond the train wrecks", miss:true,
+ desc:"Right after crossing the bridge on the draisine you reach a track junction. Get OFF the cart and follow the rails to the RIGHT until you see two wrecked trains. Walk through the wrecks and out the far side; the coffin is there. Open it.",
+ imgs:["10-1","10-2"]},
+{id:"s1", ch:0, type:"statue", name:"Rabbit Statue 1 of 5 · Tunnel wall crack", miss:true,
+ desc:"Return to the draisine and ride it to the end of the tunnel. On the LEFT side of the tunnel there is a crack in the wall. Squeeze through and interact with the rabbit statue to light its candle.",
+ imgs:[11,"11-2"]},
+{id:"p3", ch:0, type:"poster", name:"Poster 3 of 20 · Camping trailer",
+ desc:"Roughly ten minutes later, after sawing through a fallen tree and escaping the car chase, you automatically drop down a small cliff. Head all the way LEFT: the poster is stuck on a camping trailer.",
+ imgs:[12]},
+
+// ---------- CHAPTER 2 ----------
+{id:"m4", ch:1, type:"mask", name:"Mask 4 of 18 · Pig Head Mask (clothing store)",
+ desc:"When you reach the village, lift the garage door to enter a clothing store with two mannequins. Go behind the checkout counter and crawl through the hole in the wall. In the creepy red-lit room beyond, the mask sits on a tray beside a much larger pig head.",
+ imgs:["13-1","13-2"]},
+{id:"p4", ch:1, type:"poster", name:"Poster 4 of 20 · Cinema entrance shelf",
+ desc:"The moment you enter the cinema, head to the bottom RIGHT corner of the screen and jump up onto the shelf to grab the poster on the right side.",
+ tip:"If you are carrying the bolt cutters, put them down first (Circle / B) or you cannot interact. Grab the poster BEFORE cutting the chained door.",
+ imgs:[14]},
+{id:"c4", ch:1, type:"chair", name:"Seat 4 of 10 · Playground couch",
+ desc:"After leaving the cinema and passing through another house you come to an outdoor playground. Sit on the couch in the MIDDLE of the playground.",
+ tip:"Other playground objects can be sat on but only one seat per area counts, so take the couch.",
+ imgs:[16]},
+{id:"p5", ch:1, type:"poster", name:"Poster 5 of 20 · Playground fence",
+ desc:"To the right of the playground couch, the poster hangs on the fence behind the slide.",
+ imgs:[17]},
+{id:"c5", ch:1, type:"chair", name:"Seat 5 of 10 · Prison corridor chair",
+ desc:"After the stealth section hiding from the man, you enter a corridor lined with prison cells. The chair is on the LEFT, beside the cell where you obtain the crowbar.",
+ imgs:[18]},
+{id:"c6", ch:1, type:"chair", name:"Seat 6 of 10 · Cinema toilet",
+ desc:"When you are back in the cinema and pry the door open with the crowbar, a toilet is directly in front of you. Sit on it.",
+ imgs:[19]},
+{id:"cr1", ch:1, type:"critter", name:"Critter 1 of 5 · Cone Critter",
+ desc:"Once you have the crowbar from the cinema, return to the main square. A critter hiding under a traffic cone scurries away from the broken building on the right; follow it to the building blocked by wooden planks in the corner of the square. Break the planks with the crowbar, enter, and hit the critter until it drops.",
+ imgs:["20-1","20-2"]},
+{id:"m5", ch:1, type:"mask", name:"Mask 5 of 18 · Traffic Cone Head Mask",
+ desc:"Dropped by Critter 1 above. After killing the cone critter inside the planked-up building in the main square, pick the traffic cone up from its body.",
+ imgs:["20-2"]},
+
+// ---------- CHAPTER 3 ----------
+{id:"p6", ch:2, type:"poster", name:"Poster 6 of 20 · Flooded town landing",
+ desc:"After opening the dam and escaping the boat chase, you enter a flooded town and must park the boat on a beach for the story. Immediately after stepping off the boat, the poster is on a wall to the LEFT.",
+ imgs:[21]},
+{id:"cf2", ch:2, type:"coffin", name:"Coffin 2 of 5 · Flooded city detour", miss:true,
+ desc:"Once you have the harpoon and destroy your first mine, you soon see a hotel ahead. Do NOT enter it yet: take the flooded city route on your RIGHT. Blow up the two mines on the left, drive to the end of the area, enter the building through the hole and follow the stairs down to the coffin.",
+ imgs:["22-1","22-2"]},
+{id:"cf3", ch:2, type:"coffin", name:"Coffin 3 of 5 · Alcove behind the cannon", miss:true,
+ desc:"After the hotel you reach a large open sea with a huge cannon on the central island. Sail around the RIGHT of the cannon. At the back LEFT of the sea, mountains hide an alcove you can drive through; the coffin waits at the end.",
+ imgs:["23-1","23-2"]},
+{id:"cr2", ch:2, type:"critter", name:"Critter 2 of 5 · Scarecrow Critter",
+ desc:"Park on the beach at the far RIGHT of the sea. Fend off the seagulls with your crowbar and climb the long ladder into the orange flower field. Stay on the LEFT side of the field until you spot a scarecrow. Hit the scarecrow with the crowbar to knock a critter loose, then kill it.",
+ imgs:[24]},
+{id:"m6", ch:2, type:"mask", name:"Mask 6 of 18 · Deer (Scarecrow) Head Mask",
+ desc:"Dropped by Critter 2 above. Once the scarecrow critter is dead, pick the Deer Head up from its body in the flower field.",
+ imgs:[24]},
+{id:"s2", ch:2, type:"statue", name:"Rabbit Statue 2 of 5 · Pig barn, right path", miss:true,
+ desc:"Shortly after the flower field you enter a big barn full of pigs. As soon as you step in, take the RIGHT path (before squeezing between the pigs) to the rabbit statue at the end. Light the candle.",
+ imgs:[25]},
+{id:"p7", ch:2, type:"poster", name:"Poster 7 of 20 · Tractor cabin",
+ desc:"After leaving the pig barn you pass through a small cabin containing a tractor. The poster is on the wall behind the tractor.",
+ imgs:[26]},
+{id:"p8", ch:2, type:"poster", name:"Poster 8 of 20 · Bus station pylon",
+ desc:"After escaping the Pelican you cross back through the barn and reach a small bus station. The poster is on the SECOND pylon to the right of the station. Take it BEFORE sitting on the bench, as the bench and bus end the chapter.",
+ imgs:[27]},
+{id:"c7", ch:2, type:"chair", name:"Seat 7 of 10 · Bus station bench",
+ desc:"Sit on the bench inside the bus station (this is also story progress and counts towards the seating trophy). Afterwards, board the yellow bus to end the chapter.",
+ imgs:[28]},
+
+// ---------- CHAPTER 4 ----------
+{id:"p9", ch:3, type:"poster", name:"Poster 9 of 20 · Yard pylon",
+ desc:"As soon as you step off the bus, walk to the far LEFT side of the yard. The poster is on a pylon.",
+ imgs:[29]},
+{id:"c8", ch:3, type:"chair", name:"Seat 8 of 10 · Clock tower couch",
+ desc:"In the first room of the clock tower orphanage (the one with the petrified children), sit on the couch in the upper RIGHT corner.",
+ imgs:[31]},
+{id:"p10", ch:3, type:"poster", name:"Poster 10 of 20 · Hidden candle-lit room",
+ desc:"Same clock tower room: on the right side, crouch UNDER the bookcase to enter a hidden, candle-lit room. The poster is on the wall in the bottom right corner. A critter will bolt out as you enter; that is expected, and is your Bucket Head chance.",
+ imgs:["32-1","32-2"]},
+{id:"cr3", ch:3, type:"critter", name:"Critter 3 of 5 · Bucket Critter",
+ desc:"The critter that fled the hidden room runs back into the room with the petrified children. Return there and kill it with the crowbar.",
+ imgs:[33]},
+{id:"m7", ch:3, type:"mask", name:"Mask 7 of 18 · Bucket Head Mask",
+ desc:"Dropped by Critter 3 above. Pick the bucket up from the critter you killed in the petrified children room.",
+ imgs:[33]},
+{id:"s3", ch:3, type:"statue", name:"Rabbit Statue 3 of 5 · Corridor back wall", miss:true,
+ desc:"Drop through the wardrobe hatch, break the barrier and pass the corridor with the three enemies. Go to the very END of that corridor and squeeze through the gap in the BACK wall (ignore the vent on the left wall for now). Light the candle on the rabbit statue in the secret room.",
+ imgs:[35]},
+{id:"m8", ch:3, type:"mask", name:"Mask 8 of 18 · Crown Head Mask (food hall)",
+ desc:"Take the vent on the left wall into the food hall, where you must fight a wave of spider kids. One of them wears a crown and sits on the throne. When the fight turns against him, he climbs down and tries to escape by sneaking BEHIND the throne towards the top right wall. Defeat him during that walk, before he escapes, and pick up his crown.",
+ tip:"He cannot be hit while on the throne or climbing down, only while walking behind it, and the camera partly hides him. Keep one other enemy alive so the fight does not end, and restart the checkpoint if he gets away.",
+ imgs:["36-1","36-2"]},
+{id:"c9", ch:3, type:"chair", name:"Seat 9 of 10 · Couch past the stage room",
+ desc:"After the food hall, go upstairs and cross the theatre stage room with the large pig on a rope, then take the door in the bottom LEFT. The couch is immediately in front of you.",
+ imgs:[37]},
+{id:"p11", ch:3, type:"poster", name:"Poster 11 of 20 · Lever room",
+ desc:"From the couch, pull the lever on the corridor wall and enter the room on the left for story progress. Cross it, defeat the two child enemies, and the poster is on the wall ahead of you before you leave.",
+ imgs:[38]},
+{id:"m9", ch:3, type:"mask", name:"Mask 9 of 18 · Plant Head Mask (bed area)",
+ desc:"Just after defeating the spider kids in the area with all the beds, you enter a corridor with broken floorboards. Look for a crack in the wall on the SOUTH side (towards the bottom edge of the screen). Shimmy through and uproot the plant sitting in the dirt to pull the mask out.",
+ imgs:[39]},
+{id:"cf4", ch:3, type:"coffin", name:"Coffin 4 of 5 · Door beside the rope hole", miss:true,
+ desc:"After sneaking through the dark room of sleeping enemies you enter a room with three attacking children and a big hole with a rope in the middle. Kill the enemies, then go through the door in the bottom LEFT corner to the coffin. Collect it BEFORE touching the body on the rope, which ends the chapter.",
+ imgs:["40-1","40-2"]},
+
+// ---------- CHAPTER 5 ----------
+{id:"p12", ch:4, type:"poster", name:"Poster 12 of 20 · Hidden gap in the wardrobe",
+ desc:"After escaping the big spider chase, in the next room go RIGHT and pry the wardrobe open, then interact with it again to squeeze through a hidden gap behind it. The poster is in the secret room beyond. No masks exist in this chapter.",
+ imgs:[42,43]},
+{id:"c10", ch:4, type:"chair", name:"Seat 10 of 10 · Chair or couch",
+ desc:"Return to the previous room and sit on either the chair in the middle or the couch on the left. If you have every seat so far, the Take a Load Off trophy unlocks here.",
+ tip:"Missed one earlier? More seats appear later, including a chair on the next outdoor balcony.",
+ imgs:[44]},
+{id:"p13", ch:4, type:"poster", name:"Poster 13 of 20 · Balcony",
+ desc:"Past the small piano in the corridor (play it three times for the Lullabye trophy), go upstairs and take the door on the LEFT out to a balcony holding the poster.",
+ imgs:[46]},
+
+// ---------- CHAPTER 6 ----------
+{id:"p14", ch:5, type:"poster", name:"Poster 14 of 20 · Secret Bunker console",
+ desc:"From the chapter start, take the right tunnel and door into a lab. Exit right, find the generator, then return inside. On the console with four glowing dots enter, left to right: middle, bottom, bottom, middle (2-3-3-2), then pull the right lever. The poster appears on the LEFT side of the console.",
+ imgs:[48]},
+{id:"cr4", ch:5, type:"critter", name:"Critter 4 of 5 · Fish Critter (bunker beach)",
+ desc:"At the generator outside the bunker, PUSH the nearby crate off the ledge so it falls to the beach below. Back inside, look through the binoculars at the crate for a dot code (it varies per game, for example 1-3-2-1), then squeeze through the gap on the LEFT of the room and jump down to the beach. Head to the far LEFT side of the beach to find the critter wearing a fish, and beat it.",
+ tip:"If you did not push the crate down first, the setup does not work, so do that before descending.",
+ imgs:[49,"49-2"]},
+{id:"m10", ch:5, type:"mask", name:"Mask 10 of 18 · Fish (Madfish) Head Mask",
+ desc:"Dropped by Critter 4 above. Loot the fish from the critter on the bunker beach.",
+ imgs:["49-3"]},
+{id:"m11", ch:5, type:"mask", name:"Mask 11 of 18 · Package (Sack) Head Mask (hidden beach)",
+ desc:"After blowing up the sea creature with the island cannon, drive your boat through the newly opened path behind it. Take a RIGHT and use the boat's harpoons to destroy the floating mines, then follow the cliffs and park at the hidden beach ahead. The mask lies among some crates on the sand.",
+ imgs:["51-1","51-2"]},
+{id:"p15", ch:5, type:"poster", name:"Poster 15 of 20 · Shipwreck buoy",
+ desc:"Park at the little beach by the huge shipwreck. Go LEFT, beat the seagulls, have your partner boost you up the cliff and climb the anchor chain into the ship. Drop down inside and head LEFT: the poster is on a buoy.",
+ imgs:[52]},
+{id:"m12", ch:5, type:"mask", name:"Mask 12 of 18 · Diving Helmet Mask (first)",
+ desc:"Unmissable. Once your characters plug the eye into the whale, they automatically take off their diving suits. Pick up the FIRST of the two discarded helmets from the ground in front of the whale.",
+ imgs:[53]},
+{id:"m13", ch:5, type:"mask", name:"Mask 13 of 18 · Diving Helmet Mask (second)",
+ desc:"Same spot as Mask 12: pick up the SECOND discarded helmet. Each helmet counts as its own mask and secret, so interact with both before moving on.",
+ imgs:[53]},
+{id:"s4", ch:5, type:"statue", name:"Rabbit Statue 4 of 5 · Cliff passage beach", miss:true,
+ desc:"Squeeze through the gap on the right back to your boat and sail through the newly opened route right of the shipwreck, clearing mines as you go. After passing under the bridge where two enemies drop into the water, you reach a dark tunnel entrance guarded by mines. BEFORE entering the tunnel, turn RIGHT into a passage between the cliffs and beach the boat at the end to find the rabbit statue. Light the candle.",
+ imgs:["54-1","54-2"]},
+
+// ---------- CHAPTER 7 ----------
+{id:"p16", ch:6, type:"poster", name:"Poster 16 of 20 · Wall before the trenches",
+ desc:"Chapter 7 begins after the short rest scene beyond the cracked wall the sheep climbs through. Move forward into the war-torn town and check the wall on the LEFT, just before the descent into the trenches.",
+ imgs:[55]},
+{id:"m14", ch:6, type:"mask", name:"Mask 14 of 18 · Bush Head Mask (metal shutter)",
+ desc:"Right at the start of the war-torn town section, pull up the metal shutter door on the RIGHT side of the street (near Poster 16) and crawl under it. The mask lies on the ground directly behind.",
+ imgs:["56-1","56-2"]},
+{id:"m15", ch:6, type:"mask", name:"Mask 15 of 18 · Mine Head Mask (trenches, right wall)",
+ desc:"Head down into the trenches. Right after you pass the FIRST enemy soldier with a shotgun, look to your RIGHT for a cracked brick wall you can squeeze through. The naval mine mask sits among stacked artillery shells on the other side.",
+ imgs:["57-1","57-2"]},
+{id:"m16", ch:6, type:"mask", name:"Mask 16 of 18 · Rabbit Head Mask (statue reward)", miss:true,
+ desc:"Also in the trenches: just past the SECOND shotgun soldier (survive his grenade by backing off), squeeze through the crack on the LEFT wall, beneath the large standing figure, to reach the rabbit shrine. The mask lies in front of the final statue, just before a ladder.",
+ tip:"The Rabbit Head Mask ONLY spawns if you found and lit the candles on all 5 Hidden Rabbit Statues earlier in this same playthrough. Statues collected via chapter select do not count, so a missed statue means a fresh run for this mask.",
+ imgs:["58-1","58-2"]},
+{id:"s5", ch:6, type:"statue", name:"Rabbit Statue 5 of 5 · Trench shrine", miss:true,
+ desc:"Same spot as Mask 16: the shrine through the crack in the LEFT trench wall. This final statue is already lit if you found the previous four, and the Prayer for the Dying trophy unlocks here.",
+ imgs:["58-1"]},
+{id:"p17", ch:6, type:"poster", name:"Poster 17 of 20 · Bottom of the long ladder",
+ desc:"After fleeing the big sheep into the bunker, you climb down a long ladder in the next room. At the bottom, walk TOWARDS the camera (bottom of the screen); the poster is at the end of the path.",
+ imgs:[59]},
+{id:"cf5", ch:6, type:"coffin", name:"Coffin 5 of 5 · Behind the exploded wall", miss:true,
+ desc:"In the war hospital, after using the bolt cutters and crossing the exploding soldier rooms, sprint down the corridor of soldiers on beds until the path turns right. The instant you turn, a wall EXPLODES behind you and a wheelchair is pushed through. Turn around and enter that blown-open wall. Turn the big wheel to reveal a ladder and climb down to the coffin.",
+ tip:"All five coffins in one playthrough unlock the secret ending in Chapter 9.",
+ imgs:["61-1","61-2"]},
+
+// ---------- CHAPTER 8 ----------
+{id:"m17", ch:7, type:"mask", name:"Mask 17 of 18 · Amphibian (Toad) Head Mask (war hospital)",
+ desc:"Inside the war hospital, go to the surgery room where you find the bolt cutters, next to the explosive-rigged cabinet. Crouch under the desk on the RIGHT side of the room to enter a secret area; the mask waits in a box on the floor.",
+ tip:"Some guides count the war hospital as the end of Chapter 7 rather than Chapter 8; either way it comes right after the long ladder and lift.",
+ imgs:["60-1","60-2"]},
+{id:"p18", ch:7, type:"poster", name:"Poster 18 of 20 · Sniper house, upstairs",
+ desc:"In the house where a sniper gets shot, enter the room to the LEFT of him, go upstairs and into the next room on the left. The poster is on the wall, just before you start hiding from the Sniper outside.",
+ imgs:[62]},
+{id:"p19", ch:7, type:"poster", name:"Poster 19 of 20 · Behind the climbing wall",
+ desc:"While moving right between cover under sniper fire, you reach a wall you are meant to climb with your partner. Do NOT climb yet: walk around the wall further to the RIGHT and the poster is hidden behind it. If you reach a usable door you have gone too far.",
+ imgs:[63]},
+{id:"cr5", ch:7, type:"critter", name:"Critter 5 of 5 · Oven Critter",
+ desc:"In the shooting range room, shoot the hanging soldier (the third practice dummy from the left) so he drops a key, then open the door in the right corner. In the alley beyond, interact with the toppled oven directly after the door. A critter bursts out and sprints back into the shooting range. Grab a gun and shoot it.",
+ imgs:[64]},
+{id:"m18", ch:7, type:"mask", name:"Mask 18 of 18 · Gas Head Mask",
+ desc:"Dropped by Critter 5 above. Pick the Gas Mask up from the critter you shot in the range. This is the final mask; Beneath the Mask unlocks here if you have all eighteen.",
+ imgs:[64]},
+{id:"p20", ch:7, type:"poster", name:"Poster 20 of 20 · Lift by the big sheep",
+ desc:"Sneak past the big sheep in the alley, climb the wall and enter the building through the door. On the LEFT, pull the lift door open: the final poster (and final Secret) is inside.",
+ imgs:[65]}
+];
+
+const BOSSES = [
+{id:"b1", name:"1 · The Sniffer (Chapters 1-2)",
+ desc:"A tall humanoid with an oversized head who hunts entirely by sound.<ol><li><b>Trolley yard:</b> hide silently inside the briefcases and trolleys, and lure him away with thrown noises before moving.</li><li><b>Laundromat:</b> crouch inside the dryers and under the tables, and only move when a dryer makes noise to cover your footsteps.</li><li><b>Ice cream truck finale:</b> fuel the truck at the petrol station. When he attacks through the serving window, crouch behind cover and time crowbar hits until his head drops, then run him over with the truck.</li></ol>"},
+{id:"b2", name:"2 · The Pelican (Chapter 3)",
+ desc:"A giant bird with a flapping pouch that commands the seagull swarms and nests in the lighthouse.<ol><li>Beat the seagulls back with the crowbar so you can reach and climb the lighthouse.</li><li>At the top, free your caged friend. This immediately triggers the chase.</li><li>Sprint back down and run WITHOUT stopping all the way to the barn; if the Pelican catches you, you die instantly.</li><li>Inside the barn, follow the fleeing pigs through the gate on the right. The Pelican is trapped in the burning barn behind you.</li></ol>"},
+{id:"b3", name:"3 · The Spider (Chapter 5)",
+ desc:"First a stealth section, then a chase, then a proper arena fight.<ol><li>In the arena, spider kids appear and throw spears at you each time the Spider retreats. Pick a spear up and throw it back or at the boss.</li><li>The Spider only emerges from two spots: if it appears front and centre, stand at the far LEFT; if it appears from the left, stand at the far RIGHT. It cannot hit you from there.</li><li>Hit it with thrown spears each round until it flees, then follow it into its cave and climb into its mouth.</li></ol>",
+ tip:"Trophy hunters: kill 10 of the spear-throwing kids with returned spears BEFORE finishing the Spider for the Shot Through the Heart trophy."},
+{id:"b4", name:"4 · The Brook Horse (Chapter 6)",
+ desc:"The huge sea creature blocking the open water. You fight it with the island cannon.<ol><li>Sail to the central island and grab a cannon shell from the red glowing crate.</li><li>Load it together: hold the hatch wheel while your partner inserts the shell, then press the wall switch to open the window.</li><li>Rotate the cannon towards the creature and fire. Once it sinks, sail to the shipwreck, climb the cliff and take the lift down.</li><li>Interact with the wounded horse to pluck its eye. The moment it stirs, sprint back to the lift and ascend.</li><li>Insert the eye into the whale's empty socket to open your escape route (and grab both Diving Helmet Masks here).</li></ol>"},
+{id:"b5", name:"5 · The Sniper (Chapter 8)",
+ desc:"An unseen marksman who kills anything that steps into the light.<ol><li>Stay out of lit areas and open windows; darkness and cover are your only protection while exiting the building.</li><li>In the garage, dash to the middle car, push the RIGHT car into the next one and pull the LEFT car back, so the right car rolls downhill.</li><li>Use the rolling car as moving cover to reach the yellow bus, which holds a rocket launcher.</li><li>Aim at the clock tower where the Sniper hides and fire one rocket to end the fight instantly.</li></ol>"},
+{id:"b6", name:"6 · The Lamb (Chapter 9, final boss)",
+ desc:"The colossal sheep that has stalked you all game, fought from a tank.<ol><li>Stun the tank crew by throwing grenades at the tank, then take it for yourself.</li><li><b>Phase 1:</b> simply drive forward down the street and let the tank's auto-aim handle the pursuing Lamb.</li><li><b>Phase 2:</b> when the Lamb grabs the tank, aim carefully at its head and land three precise headshots.</li><li><b>Phase 3:</b> the floor shatters and the tank plummets. Keep firing on the way down to stagger the Lamb; the fall itself finishes it off.</li></ol>"}
+];
+
+// ---------------- App logic ----------------
+const KEY = "reanimal-checklist-v2";
+let checked = new Set();
+let filter = "all";
+let storageOk = false;
+
+async function loadState(){
+  try{
+    if (typeof window.storage !== "undefined"){
+      const r = await window.storage.get(KEY);
+      if (r && r.value) checked = new Set(JSON.parse(r.value));
+      storageOk = true;
+    }
+  }catch(e){ storageOk = (typeof window.storage !== "undefined"); }
+  render(); renderBosses(); updateSaveState();
+}
+async function saveState(){
+  try{
+    if (typeof window.storage !== "undefined"){
+      await window.storage.set(KEY, JSON.stringify([...checked]));
+      storageOk = true;
+    }
+  }catch(e){ storageOk = false; }
+  updateSaveState();
+}
+function updateSaveState(){
+  document.getElementById("saveState").textContent =
+    storageOk ? "Progress saves automatically." : "Progress is kept for this session only.";
+}
+
+function buildFilters(){
+  const bar = document.getElementById("filters");
+  const opts = [["all","All 63"],["mask","Masks 18"],["poster","Posters 20"],
+    ["statue","Statues 5"],["critter","Critters 5"],["coffin","Coffins 5"],["chair","Seats 10"],["todo","Still missing"]];
+  bar.innerHTML = "";
+  opts.forEach(([val,label])=>{
+    const b = document.createElement("button");
+    b.className = "chip" + (filter===val ? " active":"");
+    b.textContent = label;
+    b.onclick = ()=>{ filter = val; buildFilters(); render(); };
+    bar.appendChild(b);
+  });
+}
+
+function imgsHTML(it){
+  return (it.imgs||[]).map(n=>{
+    const u = IMG(n);
+    return `<a href="${u}" target="_blank" rel="noopener">
+      <img src="${u}" alt="Location screenshot for ${it.name}" loading="lazy"
+        onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable here. <u>Open screenshot</u></span>'">
+    </a>`;
+  }).join("");
+}
+
+function itemHTML(it, badgeClass, badgeLabel){
+  const imgs = imgsHTML(it);
+  return `
+  <article class="item ${checked.has(it.id)?"done":""}" data-id="${it.id}">
+    <div class="i-top">
+      <label class="i-check">
+        <input type="checkbox" ${checked.has(it.id)?"checked":""} aria-label="Mark ${it.name} as done">
+      </label>
+      <div class="i-body">
+        <div class="badges">
+          <span class="badge ${badgeClass}">${badgeLabel}</span>
+          ${it.miss ? '<span class="badge b-miss">Missable</span>' : ""}
+        </div>
+        <div class="i-name">${it.name}</div>
+        <p class="i-desc">${it.desc}</p>
+        ${it.tip ? `<p class="i-tip">${it.tip}</p>` : ""}
+        ${imgs ? `<div class="imgs">${imgs}</div><p class="img-cap">Screenshots: PowerPyx. Tap to open full size.</p>` : ""}
+      </div>
+    </div>
+  </article>`;
+}
+
+function bindChecks(container, onChange){
+  container.querySelectorAll(".item input").forEach(cb=>{
+    cb.addEventListener("change", e=>{
+      const id = e.target.closest(".item").dataset.id;
+      if (e.target.checked) checked.add(id); else checked.delete(id);
+      saveState();
+      e.target.closest(".item").classList.toggle("done", e.target.checked);
+      onChange();
+    });
+  });
+}
+
+function render(){
+  const list = document.getElementById("list");
+  let html = "";
+  CHAPTERS.forEach((chName, chIdx)=>{
+    const items = DATA.filter(d=>{
+      if (d.ch !== chIdx) return false;
+      if (filter === "all") return true;
+      if (filter === "todo") return !checked.has(d.id);
+      return d.type === filter;
+    });
+    if (!items.length) return;
+    const chAll = DATA.filter(d=>d.ch===chIdx);
+    const chDone = chAll.filter(d=>checked.has(d.id)).length;
+    html += `<section class="chapter" data-ch="${chIdx}">
+      <div class="ch-head"><h2>${chName}</h2><span class="ch-count">${chDone}/${chAll.length} found</span></div>
+      ${items.map(it=>itemHTML(it, TYPES[it.type].cls, TYPES[it.type].label)).join("")}
+    </section>`;
+  });
+  list.innerHTML = html || '<p class="sub" style="margin-top:20px">Nothing matches this filter. Well done.</p>';
+  bindChecks(list, ()=>{ if(filter==="todo"){render();} else {refreshCounts();} });
+  refreshCounts();
+}
+
+function renderBosses(){
+  const box = document.getElementById("bossList");
+  box.innerHTML = BOSSES.map(b=>itemHTML(b, "b-boss", "Boss")).join("");
+  bindChecks(box, refreshBossCount);
+  refreshBossCount();
+}
+function refreshBossCount(){
+  const dn = BOSSES.filter(b=>checked.has(b.id)).length;
+  document.getElementById("bossCount").textContent = `${dn}/${BOSSES.length} beaten`;
+}
+
+function refreshCounts(){
+  const done = DATA.filter(d=>checked.has(d.id)).length;
+  document.getElementById("doneCount").textContent = done;
+  document.getElementById("totalCount").textContent = DATA.length;
+  document.getElementById("mainBar").style.width = (done/DATA.length*100)+"%";
+
+  const grid = document.getElementById("catGrid");
+  grid.innerHTML = Object.entries(TYPES).map(([k,t])=>{
+    const all = DATA.filter(d=>d.type===k);
+    const dn = all.filter(d=>checked.has(d.id)).length;
+    return `<div class="cat"><span><span class="dot" style="background:${t.color}"></span>${t.label}s</span><b>${dn} / ${all.length}</b></div>`;
+  }).join("");
+
+  document.querySelectorAll("#list .chapter").forEach(sec=>{
+    const chIdx = Number(sec.dataset.ch);
+    const chAll = DATA.filter(d=>d.ch===chIdx);
+    const chDone = chAll.filter(d=>checked.has(d.id)).length;
+    const c = sec.querySelector(".ch-count");
+    if (c) c.textContent = `${chDone}/${chAll.length} found`;
+  });
+  refreshBossCount();
+}
+
+document.getElementById("resetBtn").addEventListener("click", async ()=>{
+  if (!confirm("Reset all ticked items?")) return;
+  checked.clear();
+  await saveState();
+  render(); renderBosses();
+});
+
+buildFilters();
+render();
+renderBosses();
+loadState();
+</script>
+</body>
+</html>
