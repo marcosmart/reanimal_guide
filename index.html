@@ -45,6 +45,54 @@
     --lore:#c9a2ff; --loretext:#a893c9; --lorebg:rgba(201,162,255,.07);
     --msbg:rgba(30,20,44,.55); --doneline:#2c2140;
   }
+  /* ---- Theme 4: Bloodmoon (blood-dark night, cold moon-silver accent) ---- */
+  body.theme-blood{
+    --bog:#170c10; --panel:#221118; --panel2:#2a1520; --line:#4c2434;
+    --ink:#ecdfe2; --dim:#a3888f; --amber:#d9dee8; --red:#d0413c;
+    --mask:#d9c8a0; --poster:#5d98a8; --statue:#a488c9; --critter:#7ea86a;
+    --coffin:#d0413c; --chair:#97909a; --boss:#e05c6a;
+    --glowtop:#2a1220; --well:#0a0508; --onaccent:#1a0d12; --accent-rgb:217,222,232;
+    --accent-hover:#ffffff; --barfrom:#6a7284; --toolbarbg:rgba(23,12,16,.94);
+    --floatbg:rgba(34,17,24,.9); --redtext:#ef8f83; --warntext:#cfb0ab;
+    --lore:#cdb06a; --loretext:#a89478; --lorebg:rgba(205,176,106,.07);
+    --msbg:rgba(38,18,26,.55); --doneline:#33202a;
+  }
+  /* ---- Theme 5: Sporebloom (swamp moss, bioluminescent ice-cyan) ---- */
+  body.theme-spore{
+    --bog:#0d130c; --panel:#141c12; --panel2:#1a2417; --line:#2e3d28;
+    --ink:#e2e8d8; --dim:#8fa084; --amber:#6fd8e8; --red:#c4503a;
+    --mask:#cfc394; --poster:#c08b4e; --statue:#9a8fd0; --critter:#8fbf5f;
+    --coffin:#c4503a; --chair:#8e9a86; --boss:#d07070;
+    --glowtop:#1a2b18; --well:#060a05; --onaccent:#081315; --accent-rgb:111,216,232;
+    --accent-hover:#a8ecf5; --barfrom:#23606a; --toolbarbg:rgba(13,19,12,.94);
+    --floatbg:rgba(20,28,18,.9); --redtext:#e8917b; --warntext:#c4b3a4;
+    --lore:#c2b451; --loretext:#9aa377; --lorebg:rgba(194,180,81,.07);
+    --msbg:rgba(22,32,20,.55); --doneline:#26301f;
+  }
+  /* ---- Theme 6: Dead Channel (monochrome CRT static; red is the only colour) ---- */
+  body.theme-static{
+    --bog:#0e0e10; --panel:#17171a; --panel2:#1d1d21; --line:#333338;
+    --ink:#e6e6e8; --dim:#909096; --amber:#f2f2f4; --red:#c8372f;
+    --mask:#cfc6ae; --poster:#9fb3b0; --statue:#a99fbc; --critter:#a3ad93;
+    --coffin:#c8372f; --chair:#8f8f8c; --boss:#b89a9a;
+    --glowtop:#1c1c20; --well:#050506; --onaccent:#101012; --accent-rgb:242,242,244;
+    --accent-hover:#ffffff; --barfrom:#6a6a72; --toolbarbg:rgba(14,14,16,.94);
+    --floatbg:rgba(23,23,26,.9); --redtext:#ef8f83; --warntext:#c9b3ae;
+    --lore:#b8b09a; --loretext:#94907e; --lorebg:rgba(184,176,154,.07);
+    --msbg:rgba(26,26,30,.55); --doneline:#26262b;
+  }
+  /* ---- Theme 7: Porcelain (cold doll-white light, deep porcelain blue) ---- */
+  body.theme-porcelain{
+    --bog:#e3e6ea; --panel:#eef0f3; --panel2:#e6e9ee; --line:#bfc6d2;
+    --ink:#232833; --dim:#626b7c; --amber:#3c5a90; --red:#b03028;
+    --mask:#9a834a; --poster:#4a7f8c; --statue:#7568a8; --critter:#64803e;
+    --coffin:#b03028; --chair:#79808e; --boss:#a04a56;
+    --glowtop:#f3f5f8; --well:#cfd4dd; --onaccent:#f0f3f8; --accent-rgb:60,90,144;
+    --accent-hover:#5b7cb8; --barfrom:#22365c; --toolbarbg:rgba(227,230,234,.94);
+    --floatbg:rgba(238,240,243,.92); --redtext:#96261f; --warntext:#6d4a46;
+    --lore:#6b5a94; --loretext:#6a6280; --lorebg:rgba(107,90,148,.08);
+    --msbg:rgba(222,226,232,.6); --doneline:#cdd3dd;
+  }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
@@ -898,7 +946,11 @@ let storageOk = false;
 const THEMES = [
   {cls:"", name:"Drowned Ember"},
   {cls:"theme-ward", name:"Pale Ward"},
-  {cls:"theme-witch", name:"Witchlight"}
+  {cls:"theme-witch", name:"Witchlight"},
+  {cls:"theme-blood", name:"Bloodmoon"},
+  {cls:"theme-spore", name:"Sporebloom"},
+  {cls:"theme-static", name:"Dead Channel"},
+  {cls:"theme-porcelain", name:"Porcelain"}
 ];
 
 function applyLoadedState(raw){
