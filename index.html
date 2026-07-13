@@ -227,6 +227,36 @@
     .imgs a{flex-basis:100%; max-width:100%;}
     body{font-size:14.5px;}
   }
+  .to-top{
+    position:fixed; right:16px; bottom:18px; z-index:60;
+    width:44px; height:44px; border-radius:50%;
+    background:rgba(16,27,29,.88); border:1px solid var(--line);
+    color:var(--amber); font-size:1.1rem; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; backdrop-filter:blur(4px);
+    box-shadow:0 2px 10px rgba(0,0,0,.45);
+    opacity:0; transform:translateY(14px) scale(.9);
+    pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease, border-color .2s, color .2s;
+  }
+  .to-top.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
+  .to-top:hover, .to-top:focus-visible{border-color:var(--amber); color:#ffb98a;}
+  .to-top:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  .to-top svg{width:18px; height:18px; display:block;}
+  .item.flash{animation:itemFlash 1.4s ease;}
+  @keyframes itemFlash{
+    0%{border-color:var(--amber); box-shadow:0 0 0 rgba(234,106,61,0);}
+    30%{border-color:var(--amber); box-shadow:0 0 18px rgba(234,106,61,.55);}
+    100%{border-color:var(--line); box-shadow:0 0 0 rgba(234,106,61,0);}
+  }
+  @media (max-width:520px){
+    .to-top{right:12px; bottom:14px; width:42px; height:42px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .to-top{transition:opacity .2s ease;}
+    .to-top, .to-top.show{transform:none;}
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important;} html{scroll-behavior:auto;}
   }
@@ -412,6 +442,12 @@
     <span class="savestate" id="saveState"></span>
   </div>
 </div>
+<button class="to-top" id="toTop" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+</button>
+<button class="to-top" id="toLast" aria-label="Jump to the last item you ticked" title="Jump to the last item you ticked">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></svg>
+</button>
 <script>
 const IMG = n => `https://www.powerpyx.com/wp-content/uploads/reanimal-collectible-${n}.jpg`;
 
@@ -798,8 +834,22 @@ const BOSSES = [
 // ---------------- App logic ----------------
 const KEY = "reanimal-checklist-v2";
 let checked = new Set();
+let lastChecked = null;
 let filter = "all";
 let storageOk = false;
+
+function applyLoadedState(raw){
+  const parsed = JSON.parse(raw);
+  if (Array.isArray(parsed)){          // old format: plain array of ids
+    checked = new Set(parsed);
+  } else {                             // new format: {items, last}
+    checked = new Set(parsed.items || []);
+    lastChecked = parsed.last || null;
+  }
+}
+function serialiseState(){
+  return JSON.stringify({items:[...checked], last:lastChecked});
+}
 
 // Detect where the page is running. On a normal website (e.g. GitHub Pages)
 // the browser's localStorage is used. Inside a Claude artifact, where
@@ -818,23 +868,23 @@ async function loadState(){
   try{
     if (USE_LOCAL){
       const raw = localStorage.getItem(KEY);
-      if (raw) checked = new Set(JSON.parse(raw));
+      if (raw) applyLoadedState(raw);
       storageOk = true;
     } else if (typeof window.storage !== "undefined"){
       const r = await window.storage.get(KEY);
-      if (r && r.value) checked = new Set(JSON.parse(r.value));
+      if (r && r.value) applyLoadedState(r.value);
       storageOk = true;
     }
   }catch(e){ storageOk = USE_LOCAL || (typeof window.storage !== "undefined"); }
-  render(); renderBosses(); updateSaveState();
+  render(); renderBosses(); updateSaveState(); updateToTop();
 }
 async function saveState(){
   try{
     if (USE_LOCAL){
-      localStorage.setItem(KEY, JSON.stringify([...checked]));
+      localStorage.setItem(KEY, serialiseState());
       storageOk = true;
     } else if (typeof window.storage !== "undefined"){
-      await window.storage.set(KEY, JSON.stringify([...checked]));
+      await window.storage.set(KEY, serialiseState());
       storageOk = true;
     } else {
       storageOk = false;
@@ -957,8 +1007,10 @@ function bindChecks(container, onChange){
   container.querySelectorAll(".item input").forEach(cb=>{
     cb.addEventListener("change", e=>{
       const id = e.target.closest(".item").dataset.id;
-      if (e.target.checked) checked.add(id); else checked.delete(id);
+      if (e.target.checked){ checked.add(id); lastChecked = id; }
+      else checked.delete(id);
       saveState();
+      updateToTop();
       e.target.closest(".item").classList.toggle("done", e.target.checked);
       onChange();
       updateMiniBars(id);
@@ -1052,6 +1104,46 @@ function refreshCounts(){
   updateMiniBars(null);
 }
 
+// ---- Back to top / down to last ticked ----
+const toTopBtn = document.getElementById("toTop");
+const toLastBtn = document.getElementById("toLast");
+let toTopTicking = false;
+function updateToTop(){
+  const down = window.scrollY > 500;
+  toTopBtn.classList.toggle("show", down);
+  toLastBtn.classList.toggle("show", !down && !!lastChecked);
+  toTopTicking = false;
+}
+window.addEventListener("scroll", ()=>{
+  if (!toTopTicking){ requestAnimationFrame(updateToTop); toTopTicking = true; }
+}, {passive:true});
+toTopBtn.addEventListener("click", ()=>{
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({top:0, behavior: reduce ? "auto" : "smooth"});
+  toTopBtn.blur();
+});
+toLastBtn.addEventListener("click", ()=>{
+  if (!lastChecked) return;
+  // The ticked items live in the Tracker tab
+  if (tabTrackerEl.hidden) switchTab(false);
+  let el = document.querySelector(`.item[data-id="${lastChecked}"]`);
+  if (!el){
+    // Hidden by the current filter: fall back to the full list
+    filter = "all";
+    buildFilters();
+    render();
+    el = document.querySelector(`.item[data-id="${lastChecked}"]`);
+  }
+  if (!el) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"center"});
+  el.classList.remove("flash");
+  void el.offsetWidth; /* restart the highlight animation */
+  el.classList.add("flash");
+  toLastBtn.blur();
+});
+updateToTop();
+
 // ---- Tabs ----
 const tabTrackerBtn = document.getElementById("tabBtnTracker");
 const tabBestiaryBtn = document.getElementById("tabBtnBestiary");
@@ -1072,6 +1164,7 @@ tabBestiaryBtn.addEventListener("click", ()=>switchTab(true));
 document.getElementById("resetBtn").addEventListener("click", async ()=>{
   if (!confirm("Reset all ticked items?")) return;
   checked.clear();
+  lastChecked = null;
   await saveState();
   render(); renderBosses();
 });
