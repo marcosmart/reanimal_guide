@@ -151,6 +151,27 @@
   }
   .mp-pct{display:inline-block;}
 
+  .milestone{
+    display:flex; gap:10px; align-items:flex-start;
+    background:rgba(21,35,37,.55); border:1px dashed var(--line);
+    border-left:3px solid var(--dim);
+    border-radius:10px; padding:10px 12px; margin:0 0 12px 14px;
+    font-size:.85rem;
+  }
+  .milestone.k-boss{border-left-color:var(--boss);}
+  .milestone.k-warn{border-left-color:var(--red); background:rgba(193,58,51,.08);}
+  .ms-tag{
+    flex:0 0 auto; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase;
+    font-weight:700; padding:2px 7px; border-radius:4px; margin-top:2px;
+    background:var(--dim); color:#0a1214;
+  }
+  .milestone.k-boss .ms-tag{background:var(--boss); color:#230a08;}
+  .milestone.k-warn .ms-tag{background:var(--red); color:#f4e3df;}
+  .ms-title{font-weight:700; margin-bottom:2px;}
+  .ms-desc{color:var(--dim);}
+  .milestone.k-warn .ms-desc{color:#c8b4ac;}
+  @media (max-width:520px){ .milestone{margin-left:6px;} }
+
   .bosses-intro{color:var(--dim); font-size:.9rem; margin-bottom:12px; max-width:62ch;}
 
   .footer-note{color:var(--dim); font-size:.8rem; margin-top:34px; border-top:1px solid var(--line); padding-top:14px;}
@@ -174,7 +195,7 @@
   <header>
     <div class="eyebrow">Reanimal · Nintendo Switch 2 · 100% Tracker</div>
     <h1>Every Mask, Every Discoverable &amp; Every Boss</h1>
-    <p class="sub">All 63 pickups across the 9 chapters: 18 Masks, 20 Posters, 5 Hidden Rabbit Statues, 5 Critters, 5 Coffins and 10 Rest Your Legs seats, plus strategies for all 6 main bosses at the bottom. Each pickup also counts as a Secret (47 in total). Tick items as you collect them and your progress is saved automatically. Tap a screenshot to open it full size.</p>
+    <p class="sub">All 63 pickups across the 9 chapters: 18 Masks, 20 Posters, 5 Hidden Rabbit Statues, 5 Critters, 5 Coffins and 10 Rest Your Legs seats, plus strategies for all 6 main bosses at the bottom. Route milestones between the pickups mark bosses, key story events and, in red, points of no return, so you always know when it is safe to explore and when progressing will lock an area behind you. Each pickup also counts as a Secret (47 in total). Tick items as you collect them and your progress is saved automatically. Tap a screenshot to open it full size.</p>
   </header>
 
   <div class="warn">
@@ -217,7 +238,103 @@ const CHAPTERS = [
   "Chapter 5 · Down in a Hole",
   "Chapter 6 · Nobody Left Behind",
   "Chapter 7 · The Spoils",
-  "Chapter 8 · The Watcher"
+  "Chapter 8 · The Watcher",
+  "Chapter 9 · All-Consuming Past"
+];
+
+/* Route milestones: bosses, key story events and points of no return.
+   after: "start" = top of the chapter, an item id = directly after that
+   collectible, "end" = bottom of the chapter. kind: event | boss | warn. */
+const MILESTONES = [
+// Chapter 1
+{ch:0, after:"start", kind:"event", title:"Boat opening and the beach",
+ desc:"The game opens with you sailing towards the buoys; a cutscene pulls your sister from the water. On the beach, open the briefcases until you find the key, then enter the Mill. The sewers, giant fan and spinning boiler puzzle follow, which is where the first two masks live."},
+{ch:0, after:"c3", kind:"warn", title:"Do not leave the rails yet",
+ desc:"The draisine ride over the bridge is next. After crossing, get OFF at the junction: Coffin 1 (through the train wrecks on the right) and Rabbit Statue 1 (crack at the tunnel end) are both collected around the rails before you continue. Both are missable for the secret ending and Rabbit Head Mask."},
+{ch:0, after:"s1", kind:"boss", title:"The Sniffer, first stealth",
+ desc:"Beyond the tunnel you reach the trolley yard. The Sniffer hunts purely by sound: crouch behind and inside the stacked briefcases and carriages, and only move while he is distracted. Being heard means death."},
+{ch:0, after:"s1", kind:"event", title:"The saw and the ice cream truck",
+ desc:"Saw through the fallen tree with your partner, then the ice cream truck chase begins and your third friend is snatched. Sprint down the path; the drop off the small cliff (where Poster 3 waits on the left) comes right after."},
+{ch:0, after:"end", kind:"warn", title:"Chapter 1 ends shortly after the trailer",
+ desc:"Once you move on from the camping trailer area the chapter closes. Confirm you have all 11 Chapter 1 items before progressing."},
+
+// Chapter 2
+{ch:1, after:"start", kind:"event", title:"Arrival in the village",
+ desc:"You explore the abandoned village on foot. The clothing store with the Pig Head is one of the first buildings, so check it before heading deeper towards the cinema."},
+{ch:1, after:"p4", kind:"warn", title:"Cutting the cinema chain progresses the story",
+ desc:"The chained door in the cinema pushes you forward. Grab Poster 4 from the entrance shelf first, and remember you must come back later with the crowbar for the toilet seat, so this area is revisited."},
+{ch:1, after:"p5", kind:"boss", title:"The Sniffer, laundromat stealth",
+ desc:"The stealth section hiding from the man: crouch inside the dryers and under the tables, and only move when a dryer rumbles to mask your noise. The prison cell corridor with the crowbar follows immediately."},
+{ch:1, after:"m5", kind:"boss", title:"The Sniffer, final showdown",
+ desc:"Fuel the ice cream truck at the petrol station. When the Sniffer attacks through the serving window, duck behind cover and time crowbar hits until his head drops, then run him over with the truck."},
+{ch:1, after:"end", kind:"warn", title:"Beating the Sniffer ends the chapter",
+ desc:"The truck escape rolls straight into the Chapter 3 beach crash, so collect all 8 Chapter 2 items before the petrol station fight."},
+
+// Chapter 3
+{ch:2, after:"start", kind:"event", title:"Back on the first beach, then the dam",
+ desc:"You return to the Chapter 1 beach with your crowbar. Pry the fence door open, climb up, fetch the wheel, and open the sluice gates (open the first one only about 1.5 turns, jump across, open the second fully, then finish the first). The minefield sailing begins after; dodging 20 mines in one playthrough earns a trophy."},
+{ch:2, after:"p6", kind:"event", title:"You gain the harpoons",
+ desc:"After the flooded library chase, interact with the body on the sofa to obtain the boat harpoons. From here you can destroy mines, which unlocks the two coffin detours below. Do them BEFORE entering the hotel."},
+{ch:2, after:"m6", kind:"warn", title:"Explore the open sea fully before the lighthouse",
+ desc:"The open sea around the cannon island is a hub: Coffin 3's alcove, the flower field beach with the Deer Head, and the pig barn with Rabbit Statue 2 are all here. The lighthouse triggers the chase that pushes you out of the area."},
+{ch:2, after:"p7", kind:"boss", title:"The Pelican",
+ desc:"Climb the lighthouse and free your caged friend at the top; this immediately starts the chase. Sprint back down and run WITHOUT stopping all the way to the barn; being caught is instant death. Follow the fleeing pigs through the right gate to trap the bird in the burning barn."},
+{ch:2, after:"end", kind:"warn", title:"The bench and the yellow bus end the chapter",
+ desc:"Sitting on the bus station bench starts the ending sequence and boarding the bus locks it in. Poster 8 on the second pylon must be taken first."},
+
+// Chapter 4
+{ch:3, after:"start", kind:"event", title:"The clock tower orphanage",
+ desc:"Off the bus, climb the ladder to the roof, pull the clock hands until the chime, then boost your sister through the broken clock face. The petrified children room inside is the hub for the first three finds here."},
+{ch:3, after:"m7", kind:"event", title:"Down the wardrobe hatch",
+ desc:"Break the statue, pry the wardrobe open and drop through the hatch. From here the orphanage turns hostile: corridors of spider kids, the food hall throne fight (Crown Head) and the stage room with the hanging pig all follow in sequence."},
+{ch:3, after:"p11", kind:"event", title:"The wave fight",
+ desc:"A multi-wave brawl against the spider kids. Survive it and the corridor with the broken floorboards beyond hides the Plant Head crack on the south wall."},
+{ch:3, after:"cf4", kind:"warn", title:"The body on the rope ends the chapter",
+ desc:"In the room with the hole and the rope, interacting with the body hanging over it finishes Chapter 4. Coffin 4 through the bottom left door must be opened first."},
+
+// Chapter 5
+{ch:4, after:"start", kind:"boss", title:"The Spider, stealth and chase",
+ desc:"The chapter opens under the Spider's shadow: sneak past it in the dark, then survive the scripted chase. The wardrobe room with Poster 12 comes right after you escape."},
+{ch:4, after:"p13", kind:"boss", title:"The Spider, arena fight",
+ desc:"Spider kids throw spears each round; throw them back at the boss. It only emerges from two spots: if it appears front and centre stand far LEFT, if it appears from the left stand far RIGHT, and it cannot touch you. When it flees, follow it into the cave."},
+{ch:4, after:"end", kind:"warn", title:"Climbing into the Spider's mouth ends the chapter",
+ desc:"Only 3 collectibles exist in this chapter and all come before the arena. Kill 10 spear kids first if you want the Shot Through the Heart trophy."},
+
+// Chapter 6
+{ch:5, after:"start", kind:"event", title:"The bunker laboratory",
+ desc:"Take the right tunnel into the lab. Kick the crate off the ledge by the generator straight away; it is required for the Fish Head critter on the beach below, and the Secret Bunker code (2-3-3-2) reveals Poster 14."},
+{ch:5, after:"m10", kind:"boss", title:"The Brook Horse, cannon phase",
+ desc:"Sail to the central island, grab a shell from the red crate, load it together, open the window with the wall switch, rotate and fire at the creature. Once it sinks, the path behind it opens; the hidden beach with the Package Head is off to the right of that new route."},
+{ch:5, after:"p15", kind:"event", title:"The dive and the whale",
+ desc:"Inside the shipwreck you take the lift down in diving suits, pluck the eye from the wounded horse (sprint back to the lift the moment it stirs), then insert the eye into the whale. Your suits come off automatically: BOTH Diving Helmet masks are on the ground here."},
+{ch:5, after:"s4", kind:"warn", title:"The dark tunnel is the way out",
+ desc:"Past the bridge where two enemies drop into the water, the mine-guarded tunnel finishes the chapter's sailing section. Rabbit Statue 4 in the cliff passage on the right must be lit before you enter."},
+
+// Chapter 7
+{ch:6, after:"start", kind:"event", title:"The war-torn town",
+ desc:"After the rest scene the chapter opens on a ruined street. Poster 16 and the Bush Head shutter are both here before the descent into the trenches, where soldiers take their own lives as you pass."},
+{ch:6, after:"s5", kind:"event", title:"The big sheep drives you underground",
+ desc:"Beyond the shrine ladder the giant sheep appears and chases you into the bunker. The long ladder down (Poster 17 at the bottom, towards the camera) and the lift up to the war hospital follow."},
+{ch:6, after:"cf5", kind:"warn", title:"Keep moving carefully through the hospital",
+ desc:"The exploding soldier rooms are checkpointed, but Coffin 5 behind the blown wall is easy to sprint past in a panic. It is the LAST missable of the run: once you have it, the secret ending only requires finishing the game."},
+
+// Chapter 8
+{ch:7, after:"m17", kind:"event", title:"The exploding wards",
+ desc:"Bolt cutters in hand, you cross rooms of soldiers who pull grenades as you approach. Keep running ahead of the blasts; this is the stretch containing Coffin 5 listed under Chapter 7."},
+{ch:7, after:"p18", kind:"boss", title:"The Sniper",
+ desc:"He kills anything that steps into light, so hug darkness and cover while leaving the house. In the garage, push the RIGHT car and pull the LEFT one so the right car rolls downhill, use it as moving cover to the yellow bus, then fire the rocket launcher once at the clock tower."},
+{ch:7, after:"p20", kind:"warn", title:"The battlefield ends the chapter",
+ desc:"Past the lift poster you reach the battlefield: stun the tank by throwing grenades at it and climb in. This rolls straight into Chapter 9, so make sure all 63 collectibles are ticked; there are none in the finale."},
+
+// Chapter 9
+{ch:8, after:"start", kind:"event", title:"The tank ride",
+ desc:"You drive the tank through the ruined city, blasting machine gunners, barricades and buildings. Run over 24 wrecked cars along the way for the Destruction Derby trophy; the auto-aim handles the sheep once the chase begins."},
+{ch:8, after:"start", kind:"boss", title:"The Lamb, final boss",
+ desc:"Phase 1: drive forward and keep firing while retreating. Phase 2: when the Lamb grabs the tank, aim at its head and land three precise shots. Phase 3: the floor collapses; keep shooting on the way down and the fall finishes it."},
+{ch:8, after:"start", kind:"event", title:"Inside the sheep",
+ desc:"As the sister, sprint from the wreckage until you are swallowed. Inside, climb until the path is blocked and call the boy (L1 / LB) to open the way, then head for the shed with the white rabbit."},
+{ch:8, after:"end", kind:"warn", title:"The well: normal and secret endings",
+ desc:"As the boy, drag the body to the well to trigger the finale. If you opened all 5 Coffins this playthrough, shadow figures appear on the left before the shed, and AFTER the credits an extra cutscene plays: the five figures embrace the girl and the well overflows, unlocking Friends Reunited."}
 ];
 
 const TYPES = {
@@ -515,7 +632,7 @@ function updateSaveState(){
 
 function buildFilters(){
   const bar = document.getElementById("filters");
-  const opts = [["all","All 63"],["mask","Masks 18"],["poster","Posters 20"],
+  const opts = [["all","All 63"],["route","Route milestones"],["mask","Masks 18"],["poster","Posters 20"],
     ["statue","Statues 5"],["critter","Critters 5"],["coffin","Coffins 5"],["chair","Seats 10"],["todo","Still missing"]];
   bar.innerHTML = "";
   opts.forEach(([val,label])=>{
@@ -632,22 +749,48 @@ function bindChecks(container, onChange){
   });
 }
 
+const MS_TAGS = {event:"Event", boss:"Boss", warn:"Point of no return"};
+function milestoneHTML(m){
+  return `<div class="milestone k-${m.kind}">
+    <span class="ms-tag">${MS_TAGS[m.kind]}</span>
+    <div><div class="ms-title">${m.title}</div><div class="ms-desc">${m.desc}</div></div>
+  </div>`;
+}
+
 function render(){
   const list = document.getElementById("list");
+  const showMs = (filter === "all" || filter === "route");
   let html = "";
   CHAPTERS.forEach((chName, chIdx)=>{
-    const items = DATA.filter(d=>{
+    const items = (filter === "route") ? [] : DATA.filter(d=>{
       if (d.ch !== chIdx) return false;
       if (filter === "all") return true;
       if (filter === "todo") return !checked.has(d.id);
       return d.type === filter;
     });
-    if (!items.length) return;
+    const ms = showMs ? MILESTONES.filter(m=>m.ch===chIdx) : [];
+    if (!items.length && !ms.length) return;
+
     const chAll = DATA.filter(d=>d.ch===chIdx);
     const chDone = chAll.filter(d=>checked.has(d.id)).length;
+    const countTxt = chAll.length ? `${chDone}/${chAll.length} found` : "no collectibles";
+
+    let body = "";
+    body += ms.filter(m=>m.after==="start").map(milestoneHTML).join("");
+    if (filter === "route"){
+      body += ms.filter(m=>m.after!=="start" && m.after!=="end").map(milestoneHTML).join("");
+    } else {
+      const chItemsAll = DATA.filter(d=>d.ch===chIdx);
+      chItemsAll.forEach(d=>{
+        if (items.includes(d)) body += itemHTML(d, TYPES[d.type].cls, TYPES[d.type].label, false);
+        body += ms.filter(m=>m.after===d.id).map(milestoneHTML).join("");
+      });
+    }
+    body += ms.filter(m=>m.after==="end").map(milestoneHTML).join("");
+
     html += `<section class="chapter" data-ch="${chIdx}">
-      <div class="ch-head"><h2>${chName}</h2><span class="ch-count">${chDone}/${chAll.length} found</span></div>
-      ${items.map(it=>itemHTML(it, TYPES[it.type].cls, TYPES[it.type].label, false)).join("")}
+      <div class="ch-head"><h2>${chName}</h2><span class="ch-count">${countTxt}</span></div>
+      ${body}
     </section>`;
   });
   list.innerHTML = html || '<p class="sub" style="margin-top:20px">Nothing matches this filter. Well done.</p>';
@@ -683,6 +826,7 @@ function refreshCounts(){
   document.querySelectorAll("#list .chapter").forEach(sec=>{
     const chIdx = Number(sec.dataset.ch);
     const chAll = DATA.filter(d=>d.ch===chIdx);
+    if (!chAll.length) return;
     const chDone = chAll.filter(d=>checked.has(d.id)).length;
     const c = sec.querySelector(".ch-count");
     if (c) c.textContent = `${chDone}/${chAll.length} found`;
