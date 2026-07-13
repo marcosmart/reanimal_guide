@@ -15,6 +15,35 @@
     --ink:#d9e4de; --dim:#87998f; --amber:#ea6a3d; --red:#c13a33;
     --mask:#d6cfb8; --poster:#c7a04b; --statue:#9b8fc0; --critter:#7fa05a;
     --coffin:#b8352e; --chair:#8fa39c; --boss:#c25b52;
+    --glowtop:#14262a; --well:#060c0d; --onaccent:#0a1214; --accent-rgb:234,106,61;
+    --accent-hover:#ffb98a; --barfrom:#8a3a1e; --toolbarbg:rgba(10,18,20,.94);
+    --floatbg:rgba(16,27,29,.88); --redtext:#e88b74; --warntext:#c8b4ac;
+    --lore:#d9b356; --loretext:#b3a887; --lorebg:rgba(217,179,86,.06);
+    --msbg:rgba(21,35,37,.55); --doneline:#2a2e24;
+  }
+  /* ---- Theme 2: Pale Ward (overexposed fog, old hospital, verdigris and dried blood) ---- */
+  body.theme-ward{
+    --bog:#e7e1d1; --panel:#f1ecdd; --panel2:#e9e3d1; --line:#c9bfa6;
+    --ink:#2b2519; --dim:#6f6754; --amber:#3d6b5c; --red:#a1271b;
+    --mask:#a58a3d; --poster:#4c7f76; --statue:#7b68ab; --critter:#6f8a43;
+    --coffin:#a1271b; --chair:#847d67; --boss:#a2483c;
+    --glowtop:#f6f1e3; --well:#d8d1bd; --onaccent:#f2ede0; --accent-rgb:61,107,92;
+    --accent-hover:#55917d; --barfrom:#1f4a3d; --toolbarbg:rgba(233,227,211,.94);
+    --floatbg:rgba(241,236,221,.92); --redtext:#8f2b1d; --warntext:#6d4a42;
+    --lore:#8a6d20; --loretext:#7a6c4a; --lorebg:rgba(138,109,32,.08);
+    --msbg:rgba(226,219,201,.6); --doneline:#d3caae;
+  }
+  /* ---- Theme 3: Witchlight (plum-black night, spectral green candleflame) ---- */
+  body.theme-witch{
+    --bog:#120b1a; --panel:#1a1126; --panel2:#221631; --line:#3b2a52;
+    --ink:#e9e1f4; --dim:#9c8db3; --amber:#9fe870; --red:#c9403f;
+    --mask:#e2cd8f; --poster:#d089a4; --statue:#b79ce8; --critter:#8fce6f;
+    --coffin:#c9403f; --chair:#9d96b0; --boss:#e06a8d;
+    --glowtop:#241533; --well:#0a0612; --onaccent:#10190a; --accent-rgb:159,232,112;
+    --accent-hover:#c4ff9e; --barfrom:#3d6b2a; --toolbarbg:rgba(18,11,26,.94);
+    --floatbg:rgba(26,17,38,.88); --redtext:#ef9a8e; --warntext:#cbb3ba;
+    --lore:#c9a2ff; --loretext:#a893c9; --lorebg:rgba(201,162,255,.07);
+    --msbg:rgba(30,20,44,.55); --doneline:#2c2140;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -22,9 +51,32 @@
     background:var(--bog); color:var(--ink);
     font-family:'Public Sans',system-ui,sans-serif;
     font-size:15px; line-height:1.55;
-    background-image:radial-gradient(ellipse at 50% -10%, #14262a 0%, var(--bog) 60%);
+    background-image:radial-gradient(ellipse at 50% -10%, var(--glowtop) 0%, var(--bog) 60%);
   }
   .wrap{max-width:860px; margin:0 auto; padding:20px 14px 90px;}
+  .theme-btn{
+    margin-left:auto; align-self:center;
+    width:36px; height:36px; border-radius:50%;
+    background:var(--panel); border:1px solid var(--line); color:var(--amber);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:border-color .2s, color .2s, transform .2s;
+  }
+  .theme-btn:hover, .theme-btn:focus-visible{border-color:var(--amber); color:var(--accent-hover); transform:rotate(25deg);}
+  .theme-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  .theme-btn svg{width:17px; height:17px; display:block;}
+  #themeVeil{
+    position:fixed; inset:0; z-index:100; pointer-events:none; opacity:0;
+    background:radial-gradient(circle at 50% 38%, rgba(var(--accent-rgb),.22), transparent 72%);
+  }
+  #themeVeil.flick{animation:veilFlick .68s ease;}
+  @keyframes veilFlick{
+    0%{opacity:0;} 16%{opacity:1;} 30%{opacity:.2;}
+    46%{opacity:.8;} 62%{opacity:.15;} 100%{opacity:0;}
+  }
+  body.theme-anim, body.theme-anim *{
+    transition:background-color .55s ease, color .55s ease,
+      border-color .55s ease, box-shadow .55s ease !important;
+  }
   .tabs{
     display:flex; gap:8px; margin-bottom:20px;
     border-bottom:1px solid var(--line); padding-bottom:0;
@@ -39,8 +91,8 @@
   .tab-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
 
   .beast-note{
-    margin:0 0 16px; padding:12px 14px; border-left:4px solid #d9b356;
-    background:rgba(217,179,86,.07); border-radius:0 8px 8px 0;
+    margin:0 0 16px; padding:12px 14px; border-left:4px solid var(--lore);
+    background:var(--lorebg); border-radius:0 8px 8px 0;
     font-size:.88rem; color:var(--dim);
   }
   .beast{
@@ -61,7 +113,7 @@
     font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
     font-weight:700; color:var(--dim); display:block; margin-bottom:1px;
   }
-  .beast .b-lore{color:#b3a887;}
+  .beast .b-lore{color:var(--loretext);}
   .beast-group{margin:26px 0 8px;}
 
   header{margin-bottom:18px;}
@@ -81,7 +133,7 @@
     background:linear-gradient(90deg, rgba(193,58,51,.16), transparent 70%);
     border-radius:0 8px 8px 0; font-size:.9rem;
   }
-  .warn strong{color:#e88b74;}
+  .warn strong{color:var(--redtext);}
 
   .progress-card{
     background:var(--panel); border:1px solid var(--line); border-radius:12px;
@@ -90,8 +142,8 @@
   .prog-top{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;}
   .prog-title{font-family:'Special Elite',monospace; font-size:1.05rem;}
   .prog-count{font-family:'Special Elite',monospace; color:var(--amber); font-size:1.3rem;}
-  .bar{height:10px; background:#060c0d; border-radius:6px; overflow:hidden; margin:10px 0 12px; border:1px solid var(--line);}
-  .bar > div{height:100%; width:0%; background:linear-gradient(90deg,#8a3a1e,var(--amber)); transition:width .4s ease;}
+  .bar{height:10px; background:var(--well); border-radius:6px; overflow:hidden; margin:10px 0 12px; border:1px solid var(--line);}
+  .bar > div{height:100%; width:0%; background:linear-gradient(90deg,var(--barfrom),var(--amber)); transition:width .4s ease;}
   .cats{display:grid; grid-template-columns:repeat(auto-fit,minmax(118px,1fr)); gap:8px;}
   .cat{
     background:var(--panel2); border:1px solid var(--line); border-radius:8px;
@@ -101,7 +153,7 @@
   .cat .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}
 
   .toolbar{
-    position:sticky; top:0; z-index:20; background:rgba(10,18,20,.94);
+    position:sticky; top:0; z-index:20; background:var(--toolbarbg);
     backdrop-filter:blur(6px); padding:10px 0; margin:6px -2px 14px;
     border-bottom:1px solid var(--line);
     display:flex; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch;
@@ -112,7 +164,7 @@
     color:var(--dim); border-radius:999px; padding:6px 13px; font-size:.8rem;
     font-family:inherit; cursor:pointer; white-space:nowrap;
   }
-  .chip.active{color:#0a1214; background:var(--amber); border-color:var(--amber); font-weight:700;}
+  .chip.active{color:var(--onaccent); background:var(--amber); border-color:var(--amber); font-weight:700;}
   .chip:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
 
   .chapter{margin:26px 0 8px;}
@@ -127,7 +179,7 @@
     background:var(--panel); border:1px solid var(--line); border-radius:12px;
     padding:14px; margin-bottom:12px; transition:opacity .25s ease, border-color .25s;
   }
-  .item.done{opacity:.55; border-color:#2a2e24;}
+  .item.done{opacity:.55; border-color:var(--doneline);}
   .item.done .i-name{text-decoration:line-through; text-decoration-color:var(--amber);}
   .i-top{display:flex; gap:12px; align-items:flex-start;}
   .i-check{flex:0 0 auto; margin-top:2px;}
@@ -136,13 +188,13 @@
   .badges{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:4px;}
   .badge{
     font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
-    padding:2px 8px; border-radius:4px; font-weight:700; color:#0a1214;
+    padding:2px 8px; border-radius:4px; font-weight:700; color:var(--onaccent);
   }
   .b-mask{background:var(--mask);} .b-poster{background:var(--poster);}
   .b-statue{background:var(--statue);} .b-critter{background:var(--critter);}
   .b-coffin{background:var(--coffin); color:#f4e3df;} .b-chair{background:var(--chair);}
   .b-boss{background:var(--boss); color:#230a08;}
-  .b-miss{background:transparent; color:#e88b74; border:1px solid var(--red);}
+  .b-miss{background:transparent; color:var(--redtext); border:1px solid var(--red);}
   .i-name{font-weight:700; font-size:1rem; margin-bottom:4px;}
   .i-desc{color:var(--ink); font-size:.9rem;}
   .i-desc ol{margin:6px 0 0 18px;}
@@ -155,7 +207,7 @@
   .imgs a{flex:1 1 200px; max-width:340px; display:block;}
   .imgs img{
     width:100%; border-radius:8px; border:1px solid var(--line); display:block;
-    background:#060c0d; aspect-ratio:16/9; object-fit:cover;
+    background:var(--well); aspect-ratio:16/9; object-fit:cover;
   }
   .img-cap{font-size:.7rem; color:var(--dim); margin-top:6px;}
 
@@ -168,20 +220,20 @@
     font-family:'Special Elite',monospace; color:var(--amber); font-size:.85rem;
   }
   .mp-bar{
-    height:6px; background:#060c0d; border:1px solid var(--line);
+    height:6px; background:var(--well); border:1px solid var(--line);
     border-radius:4px; overflow:hidden;
   }
   .mp-fill{
     height:100%; width:0%;
-    background:linear-gradient(90deg,#8a3a1e,var(--amber));
+    background:linear-gradient(90deg,var(--barfrom),var(--amber));
     transition:width .6s cubic-bezier(.22,1,.36,1);
   }
   .mini-prog.bump .mp-bar{animation:mpGlow .7s ease;}
   .mini-prog.bump .mp-pct{animation:mpPop .45s ease;}
   @keyframes mpGlow{
-    0%{box-shadow:0 0 0 rgba(234,106,61,0);}
-    35%{box-shadow:0 0 12px rgba(234,106,61,.6);}
-    100%{box-shadow:0 0 0 rgba(234,106,61,0);}
+    0%{box-shadow:0 0 0 rgba(var(--accent-rgb),0);}
+    35%{box-shadow:0 0 12px rgba(var(--accent-rgb),.6);}
+    100%{box-shadow:0 0 0 rgba(var(--accent-rgb),0);}
   }
   @keyframes mpPop{
     0%{transform:scale(1);}
@@ -192,16 +244,16 @@
 
   .milestone{
     display:flex; gap:10px; align-items:flex-start;
-    background:rgba(21,35,37,.55); border:1px dashed var(--line);
+    background:var(--msbg); border:1px dashed var(--line);
     border-left:3px solid var(--dim);
     border-radius:10px; padding:10px 12px; margin:0 0 12px 14px;
     font-size:.85rem;
   }
   .milestone.k-boss{border-left-color:var(--boss);}
   .milestone.k-warn{border-left-color:var(--red); background:rgba(193,58,51,.08);}
-  .milestone.k-lore{border-left-color:#d9b356; background:rgba(217,179,86,.06); border-style:solid;}
-  .milestone.k-lore .ms-tag{background:#d9b356; color:#231a06;}
-  .milestone.k-lore .ms-desc{color:#b3a887;}
+  .milestone.k-lore{border-left-color:var(--lore); background:var(--lorebg); border-style:solid;}
+  .milestone.k-lore .ms-tag{background:var(--lore); color:#231a06;}
+  .milestone.k-lore .ms-desc{color:var(--loretext);}
   .ms-tag{
     flex:0 0 auto; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase;
     font-weight:700; padding:2px 7px; border-radius:4px; margin-top:2px;
@@ -211,7 +263,7 @@
   .milestone.k-warn .ms-tag{background:var(--red); color:#f4e3df;}
   .ms-title{font-weight:700; margin-bottom:2px;}
   .ms-desc{color:var(--dim);}
-  .milestone.k-warn .ms-desc{color:#c8b4ac;}
+  .milestone.k-warn .ms-desc{color:var(--warntext);}
   @media (max-width:520px){ .milestone{margin-left:6px;} }
 
   .bosses-intro{color:var(--dim); font-size:.9rem; margin-bottom:12px; max-width:62ch;}
@@ -219,7 +271,7 @@
   .footer-note{color:var(--dim); font-size:.8rem; margin-top:34px; border-top:1px solid var(--line); padding-top:14px;}
   .footer-note a{color:var(--poster);}
   .reset{
-    margin-top:12px; background:transparent; border:1px solid var(--red); color:#e88b74;
+    margin-top:12px; background:transparent; border:1px solid var(--red); color:var(--redtext);
     border-radius:8px; padding:8px 14px; cursor:pointer; font-family:inherit; font-size:.85rem;
   }
   .savestate{font-size:.75rem; color:var(--dim); margin-left:10px;}
@@ -230,7 +282,7 @@
   .to-top{
     position:fixed; right:16px; bottom:18px; z-index:60;
     width:44px; height:44px; border-radius:50%;
-    background:rgba(16,27,29,.88); border:1px solid var(--line);
+    background:var(--floatbg); border:1px solid var(--line);
     color:var(--amber); font-size:1.1rem; line-height:1;
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; backdrop-filter:blur(4px);
@@ -240,14 +292,14 @@
     transition:opacity .25s ease, transform .25s ease, border-color .2s, color .2s;
   }
   .to-top.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
-  .to-top:hover, .to-top:focus-visible{border-color:var(--amber); color:#ffb98a;}
+  .to-top:hover, .to-top:focus-visible{border-color:var(--amber); color:var(--accent-hover);}
   .to-top:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
   .to-top svg{width:18px; height:18px; display:block;}
   .item.flash{animation:itemFlash 1.4s ease;}
   @keyframes itemFlash{
-    0%{border-color:var(--amber); box-shadow:0 0 0 rgba(234,106,61,0);}
-    30%{border-color:var(--amber); box-shadow:0 0 18px rgba(234,106,61,.55);}
-    100%{border-color:var(--line); box-shadow:0 0 0 rgba(234,106,61,0);}
+    0%{border-color:var(--amber); box-shadow:0 0 0 rgba(var(--accent-rgb),0);}
+    30%{border-color:var(--amber); box-shadow:0 0 18px rgba(var(--accent-rgb),.55);}
+    100%{border-color:var(--line); box-shadow:0 0 0 rgba(var(--accent-rgb),0);}
   }
   @media (max-width:520px){
     .to-top{right:12px; bottom:14px; width:42px; height:42px;}
@@ -267,6 +319,9 @@
   <nav class="tabs" role="tablist" aria-label="Guide sections">
     <button class="tab-btn active" id="tabBtnTracker" role="tab" aria-selected="true">Tracker &amp; Route</button>
     <button class="tab-btn" id="tabBtnBestiary" role="tab" aria-selected="false">Bestiary &amp; Lore</button>
+    <button class="theme-btn" id="themeBtn" aria-label="Change colour theme" title="Theme: Drowned Ember (tap to change)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg>
+    </button>
   </nav>
 
   <div id="tabTracker">
@@ -442,6 +497,7 @@
     <span class="savestate" id="saveState"></span>
   </div>
 </div>
+<div id="themeVeil" aria-hidden="true"></div>
 <button class="to-top" id="toTop" aria-label="Back to top" title="Back to top">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
 </button>
@@ -835,20 +891,29 @@ const BOSSES = [
 const KEY = "reanimal-checklist-v2";
 let checked = new Set();
 let lastChecked = null;
+let themeIdx = 0;
 let filter = "all";
 let storageOk = false;
+
+const THEMES = [
+  {cls:"", name:"Drowned Ember"},
+  {cls:"theme-ward", name:"Pale Ward"},
+  {cls:"theme-witch", name:"Witchlight"}
+];
 
 function applyLoadedState(raw){
   const parsed = JSON.parse(raw);
   if (Array.isArray(parsed)){          // old format: plain array of ids
     checked = new Set(parsed);
-  } else {                             // new format: {items, last}
+  } else {                             // new format: {items, last, theme}
     checked = new Set(parsed.items || []);
     lastChecked = parsed.last || null;
+    themeIdx = Number.isInteger(parsed.theme) ? parsed.theme % THEMES.length : 0;
+    applyTheme(false);
   }
 }
 function serialiseState(){
-  return JSON.stringify({items:[...checked], last:lastChecked});
+  return JSON.stringify({items:[...checked], last:lastChecked, theme:themeIdx});
 }
 
 // Detect where the page is running. On a normal website (e.g. GitHub Pages)
@@ -1103,6 +1168,32 @@ function refreshCounts(){
   refreshBossCount();
   updateMiniBars(null);
 }
+
+// ---- Colour themes ----
+const themeBtn = document.getElementById("themeBtn");
+const themeVeil = document.getElementById("themeVeil");
+function applyTheme(animate){
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (animate && !reduce){
+    document.body.classList.add("theme-anim");
+    themeVeil.classList.remove("flick");
+    void themeVeil.offsetWidth;
+    themeVeil.classList.add("flick");
+    setTimeout(()=>document.body.classList.remove("theme-anim"), 700);
+  }
+  THEMES.forEach(t=>{ if (t.cls) document.body.classList.remove(t.cls); });
+  const t = THEMES[themeIdx];
+  if (t.cls) document.body.classList.add(t.cls);
+  const next = THEMES[(themeIdx+1)%THEMES.length];
+  themeBtn.title = "Theme: " + t.name + " (tap for " + next.name + ")";
+  themeBtn.setAttribute("aria-label", "Change colour theme, current: " + t.name);
+}
+themeBtn.addEventListener("click", ()=>{
+  themeIdx = (themeIdx + 1) % THEMES.length;
+  applyTheme(true);
+  saveState();
+});
+applyTheme(false);
 
 // ---- Back to top / down to last ticked ----
 const toTopBtn = document.getElementById("toTop");
