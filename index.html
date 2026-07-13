@@ -25,6 +25,45 @@
     background-image:radial-gradient(ellipse at 50% -10%, #14262a 0%, var(--bog) 60%);
   }
   .wrap{max-width:860px; margin:0 auto; padding:20px 14px 90px;}
+  .tabs{
+    display:flex; gap:8px; margin-bottom:20px;
+    border-bottom:1px solid var(--line); padding-bottom:0;
+  }
+  .tab-btn{
+    font-family:'Special Elite',monospace; font-size:.95rem;
+    background:transparent; border:none; color:var(--dim);
+    padding:10px 16px 12px; cursor:pointer;
+    border-bottom:3px solid transparent; margin-bottom:-1px;
+  }
+  .tab-btn.active{color:var(--amber); border-bottom-color:var(--amber);}
+  .tab-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+
+  .beast-note{
+    margin:0 0 16px; padding:12px 14px; border-left:4px solid #d9b356;
+    background:rgba(217,179,86,.07); border-radius:0 8px 8px 0;
+    font-size:.88rem; color:var(--dim);
+  }
+  .beast{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:14px 16px; margin-bottom:12px;
+  }
+  .beast h3{
+    font-family:'Special Elite',monospace; font-weight:400;
+    font-size:1.05rem; color:var(--ink); margin-bottom:2px;
+  }
+  .beast .b-where{
+    font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--amber); margin-bottom:8px;
+  }
+  .beast p{font-size:.9rem; margin-bottom:8px;}
+  .beast p:last-child{margin-bottom:0;}
+  .beast .b-label{
+    font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+    font-weight:700; color:var(--dim); display:block; margin-bottom:1px;
+  }
+  .beast .b-lore{color:#b3a887;}
+  .beast-group{margin:26px 0 8px;}
+
   header{margin-bottom:18px;}
   .eyebrow{
     font-family:'Special Elite',monospace; color:var(--amber);
@@ -195,6 +234,12 @@
 </head>
 <body>
 <div class="wrap">
+  <nav class="tabs" role="tablist" aria-label="Guide sections">
+    <button class="tab-btn active" id="tabBtnTracker" role="tab" aria-selected="true">Tracker &amp; Route</button>
+    <button class="tab-btn" id="tabBtnBestiary" role="tab" aria-selected="false">Bestiary &amp; Lore</button>
+  </nav>
+
+  <div id="tabTracker">
   <header>
     <div class="eyebrow">Reanimal · Nintendo Switch 2 · 100% Tracker</div>
     <h1>Every Mask, Every Discoverable &amp; Every Boss</h1>
@@ -224,8 +269,145 @@
     <div id="bossList"></div>
   </section>
 
+  </div><!-- /tabTracker -->
+
+  <div id="tabBestiary" hidden>
+    <header>
+      <div class="eyebrow">Reanimal · Field Notes</div>
+      <h1>Bestiary &amp; Lore</h1>
+      <p class="sub">Every creature you will meet, under its proper name, with behaviour, how to survive it, and a spoiler-light lore note. Nothing here reveals story twists, character fates or endings; it only names what stalks you and hints at where each thing fits in the island's history, so you can draw your own conclusions in play.</p>
+    </header>
+
+    <div class="beast-note">These are collectively known as the Reanimals: the island's former inhabitants, human and animal, returned wrong. Some still go through the motions of the lives they had. Watching what each one is trying to do is half the lore of this game.</div>
+
+    <section class="beast-group">
+      <div class="ch-head"><h2>Common enemies</h2></div>
+
+      <div class="beast">
+        <h3>Critters</h3>
+        <div class="b-where">Chapters 2, 3, 4, 6 and 8</div>
+        <div class="imgs"><a href="https://www.powerpyx.com/wp-content/uploads/reanimal-collectible-20-1.jpg" target="_blank" rel="noopener"><img src="https://www.powerpyx.com/wp-content/uploads/reanimal-collectible-20-1.jpg" alt="A critter hiding under a traffic cone and another wearing a bucket" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://www.powerpyx.com/wp-content/uploads/reanimal-collectible-33.jpg" target="_blank" rel="noopener"><img src="https://www.powerpyx.com/wp-content/uploads/reanimal-collectible-33.jpg" alt="A critter hiding under a traffic cone and another wearing a bucket" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>Small, skittish creatures hiding under masks and household objects. They never attack; they bolt the moment they are seen and hole up somewhere nearby.</p>
+        <p><span class="b-label">How to handle</span>Chase them down and put them out of their misery: five of them carry Masks you need for 100%. The tracker tab flags every one.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>Why would something so small and harmless hide its face? Look closely at what each one has chosen to wear.</p>
+      </div>
+
+      <div class="beast">
+        <h3>Skins</h3>
+        <div class="b-where">Chapters 1 and 2 mainly</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Forest-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Forest-1024x576.jpg" alt="The dark forest section where the slithering Skins hunt" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Forest-1-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Forest-1-1024x576.jpg" alt="The dark forest section where the slithering Skins hunt" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>The skin-crawling things: flattened, emptied husks that slither along floors and up walls like snakes, drawn to anything living. They are tended to, almost lovingly, by the Sniffer.</p>
+        <p><span class="b-label">How to handle</span>They cannot jump gaps and cannot open doors, so both stop them cold, though walls only delay them. Keep moving, put obstacles between you, and never linger in a dead end.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>Consider what a Skin is missing, and then notice what the Sniffer spends his working day doing. The game never says it aloud; it does not need to.</p>
+      </div>
+
+      <div class="beast">
+        <h3>Boomers</h3>
+        <div class="b-where">Chapter 3 and other flooded areas</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-10-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-10-1024x576.jpg" alt="Harpooning the bloated Boomers surfacing around the boat" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-11-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-11-1024x576.jpg" alt="Harpooning the bloated Boomers surfacing around the boat" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>Bloated, waterlogged humanoids that lie utterly still among the island's genuine corpses, gorged on drowned food and drink. Get close and they lurch upright, close in, and detonate.</p>
+        <p><span class="b-label">How to handle</span>From the boat, a harpoon pops them safely at range. On foot, watch any body that seems a little too intact, and if one rises, run; distance is the only defence.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>They are indistinguishable from the dead because that is exactly what they are. The flood fed them; think about what that implies about how long they have been down there.</p>
+      </div>
+
+      <div class="beast">
+        <h3>Seagulls</h3>
+        <div class="b-where">Chapters 3 and 6, beaches and cliffs</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-18-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-18-1024x576.jpg" alt="Fighting off the seagull swarm on the beach ladders" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>Swarming shore birds that mob you in numbers on open sand, and they answer to something much larger.</p>
+        <p><span class="b-label">How to handle</span>Steady crowbar swings knock them out of the air. Fight with your back to a wall so they cannot circle behind you.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>Ordinary animals on this island are never quite ordinary. Note who they gather around, and who they flee from.</p>
+      </div>
+
+      <div class="beast">
+        <h3>Spider Kids</h3>
+        <div class="b-where">Chapters 4 and 5, the orphanage</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Skull-Room-7-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Skull-Room-7-1024x576.jpg" alt="Spider Kids throwing spears during the arena fight" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>Small, skittering child-like figures that attack in waves, some with spears. Individually feeble, genuinely dangerous in a pack, and they clearly answer to someone.</p>
+        <p><span class="b-label">How to handle</span>Never let them surround you. Fight near doorways and corners to funnel them, and in the late arena fight, their thrown spears are your ammunition; pick them up and throw them back.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>Look at where they live, what they wear and what they have built. The clock tower was something before it was this, and they did not choose it.</p>
+      </div>
+
+      <div class="beast">
+        <h3>Soldiers</h3>
+        <div class="b-where">Chapters 7 and 8, the trenches and hospital</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Upper-Floor-3-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Upper-Floor-3-1024x576.jpg" alt="A soldier raising his weapon, and the battlefield of the fallen" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Battlefield-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Battlefield-1024x576.jpg" alt="A soldier raising his weapon, and the battlefield of the fallen" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>The war dead, still carrying out their final orders: patrolling, manning guns, clutching grenades. Some are threats; several are scripted vignettes that simply play out as you pass.</p>
+        <p><span class="b-label">How to handle</span>Watch before you act. Shotgun carriers and machine gunners must be avoided or outrun; grenade men must be given distance. Many are better witnessed than fought, and the vignettes carry most of the war's story.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>A war was fought on this island, and for these men it never ended. Their uniforms, their positions and their last acts sketch out which side was doing what, and to whom.</p>
+      </div>
+
+      <div class="beast">
+        <h3>Town People</h3>
+        <div class="b-where">Chapter 2, the village</div>
+        <p><span class="b-label">Behaviour</span>The husks of the town's former residents, drifting around the streets and buildings. Notably, they are docile towards the Sniffer, and he towards them.</p>
+        <p><span class="b-label">How to handle</span>Mostly a stealth consideration rather than a combat one; treat them as eyes and ears for the thing that keeps them.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>A whole town of people who never left, and one caretaker still keeping order among them. Ask yourself what routine he is preserving, and for whom.</p>
+        <p class="img-cap">No verified screenshot available for this one; you will know them when you see them standing still in the village.</p>
+      </div>
+    </section>
+
+    <section class="beast-group">
+      <div class="ch-head"><h2>The bosses, properly named</h2></div>
+
+      <div class="beast">
+        <h3>Sniffer</h3>
+        <div class="b-where">Chapters 1 and 2</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Train-Sequence-1-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Train-Sequence-1-1024x576.jpg" alt="The Sniffer searching the train carriage" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Train-Sequence-2-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Train-Sequence-2-1024x576.jpg" alt="The Sniffer searching the train carriage" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>A tall, suited humanoid with a grotesquely oversized head, near-blind and hunting entirely by sound. When he detects you the politeness vanishes: he drops to all fours and runs you down like an animal. He is always busy, dragging, sorting, ironing, endlessly working.</p>
+        <p><span class="b-label">How to handle</span>Silence and hiding spots. Move with ambient noise, use briefcases, trolleys and dryers, and throw objects to pull him away. His full fight strategy is in the Tracker tab.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>He drives an ice cream truck, an object built purely to make children feel safe. Everything about him is a routine of care curdled into something else. Watch his chores when he has not seen you; they explain the Skins better than any note could.</p>
+      </div>
+
+      <div class="beast">
+        <h3>The Pelican</h3>
+        <div class="b-where">Chapter 3</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-15-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-15-1024x576.jpg" alt="The Pelican snatching a boy at the hotel and the lighthouse chase" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-27-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-3-Walkthrough-27-1024x576.jpg" alt="The Pelican snatching a boy at the hotel and the lighthouse chase" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>A gigantic, contorted pelican with a horribly animate pouch, commanding the seagull flocks and nesting at the top of the lighthouse. It snatches things, and people, and keeps them.</p>
+        <p><span class="b-label">How to handle</span>You cannot fight it, only outrun it. When the chase begins, sprint and do not stop for anything; being caught is instant death.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>Real pelicans carry their catch home in that pouch. Consider what a creature of this island might choose to collect, and why a lighthouse, a building made to guide the lost to safety, is its nest.</p>
+      </div>
+
+      <div class="beast">
+        <h3>The Mother</h3>
+        <div class="b-where">Chapters 4 and 5</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Skull-Room-6-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Skull-Room-6-1024x576.jpg" alt="The Mother bursting into the arena and pursuing you up the wooden shaft" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Wooden-Shaft-2-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Wooden-Shaft-2-1024x576.jpg" alt="The Mother bursting into the arena and pursuing you up the wooden shaft" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>The enormous spider-like thing dwelling beneath the orphanage, and the reason the Spider Kids behave like a brood. They shelter under her, and she guards them with genuine ferocity.</p>
+        <p><span class="b-label">How to handle</span>Stealth first, flight second, and only at the very end a real fight, using the kids' own spears. Her two emergence points and the safe positions for each are in the boss section of the Tracker tab.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>The name is the lore. Something took on the one role those children were missing, in its own dreadful way. Whether that is monstrous or almost tender is left entirely to you.</p>
+      </div>
+
+      <div class="beast">
+        <h3>The Brook Horse</h3>
+        <div class="b-where">Chapters 3 and 6, the open water</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-6-Walkthrough-14-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-6-Walkthrough-14-1024x576.jpg" alt="Aiming the cannon at the Brook Horse and approaching it underwater" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-6-Walkthrough-22-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/Reanimal-Chapter-6-Walkthrough-22-1024x576.jpg" alt="Aiming the cannon at the Brook Horse and approaching it underwater" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>A towering figure with a human-like torso, long lank arms and a horse's skull for a head, standing silent in the flooded ruins. It seems merely curious from a distance; approach and it slips beneath the surface, and then your boat is simply gone. It is also supernaturally hard to put down.</p>
+        <p><span class="b-label">How to handle</span>It guards its territory near the warship route, and you CAN blunder into it as early as Chapter 3 if you sail the wrong way, so treat distant silhouettes in the water with respect. It cannot be fought on the surface without artillery. The full encounter strategy is in the Tracker tab.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>The Bäckahästen of Swedish folklore is a beautiful white horse that appears by the water and invites children onto its back, then walks into the depths and drowns them. Tarsier being a Swedish studio, this is that story with the beauty stripped away. It never needed to be lovely; children came to the water anyway.</p>
+      </div>
+
+      <div class="beast">
+        <h3>The Sniper</h3>
+        <div class="b-where">Chapter 8</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Backyard-1-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Backyard-1-1024x576.jpg" alt="The Sniper's marked victims and the clock tower he fires from" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Upper-Floor-8-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Upper-Floor-8-1024x576.jpg" alt="The Sniper's marked victims and the clock tower he fires from" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>An unseen marksman holed up in the clock tower, executing anything that steps into the light, including his own. You never properly see him; you see what he does.</p>
+        <p><span class="b-label">How to handle</span>Light is the enemy. Hug darkness, move between cover, and remember that he sees through any lit opening. The garage sequence and his abrupt end are covered in the Tracker tab.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>Of everything on the island he is the most human, no mutation required, just a man, a rifle and a doctrine. The game placing him among the monsters, and letting him shoot his own side, is its bleakest comment on the war.</p>
+      </div>
+
+      <div class="beast">
+        <h3>The Sheep Beast</h3>
+        <div class="b-where">Chapters 7 to 9</div>
+        <div class="imgs"><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Creature-Encounter-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Creature-Encounter-1024x576.jpg" alt="Sneaking past the Sheep Beast behind trolleys in the flooded hall" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a><a href="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Creature-Encounter-2-1024x576.jpg" target="_blank" rel="noopener"><img src="https://questduo.com/wp-content/uploads/sites/6/2026/02/The-Creature-Encounter-2-1024x576.jpg" alt="Sneaking past the Sheep Beast behind trolleys in the flooded hall" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;img-cap&quot;>Image unavailable. <u>Open screenshot</u></span>'"></a></div><p class="img-cap">Screenshots via the QuestDuo and PowerPyx walkthroughs. Tap to open full size.</p>
+        <p><span class="b-label">Behaviour</span>The colossal sheep, sometimes called the Lamb, that begins shadowing you in the late game and does not stop. It is less an animal than a presence: wherever you go, it is already looming.</p>
+        <p><span class="b-label">How to handle</span>Stealth and flight until the finale, where the game finally gives you the means to answer it. Its three-phase fight is in the Tracker tab.</p>
+        <p class="b-lore"><span class="b-label">Lore note</span>Deliberately the least said here, because this one is the game's story to tell. A lamb is the oldest symbol of innocence and sacrifice there is; keep that in mind, notice when and where it appears, and let the ending do the rest.</p>
+      </div>
+    </section>
+  </div><!-- /tabBestiary -->
+
   <div class="footer-note">
-    <p>Mask names, order and locations follow the IGN mask guide supplied by you, cross-referenced with the PowerPyx chronological route (screenshots © PowerPyx, linked from <a href="https://www.powerpyx.com/reanimal-all-collectible-locations-guide/" target="_blank" rel="noopener">their guide</a>). Posters, statues, coffins, critters and seats follow PowerPyx; boss strategies are based on the Power Up Gaming boss guide and chapter walkthroughs. If an image does not load, use the source link for the full gallery. Note: some guides place the war hospital at the end of Chapter 7 rather than the start of Chapter 8; the physical route order is identical either way.</p>
+    <p>Mask names, order and locations follow the IGN mask guide supplied by you, cross-referenced with the PowerPyx chronological route (screenshots © PowerPyx, linked from <a href="https://www.powerpyx.com/reanimal-all-collectible-locations-guide/" target="_blank" rel="noopener">their guide</a>). Posters, statues, coffins, critters and seats follow PowerPyx; boss strategies are based on the Power Up Gaming boss guide and chapter walkthroughs; enemy names and bestiary background draw on the community REANIMAL wiki, with bestiary screenshots linked from the <a href="https://questduo.com/reanimal/" target="_blank" rel="noopener">QuestDuo walkthrough</a>. If an image does not load, use the source link for the full gallery. Note: some guides place the war hospital at the end of Chapter 7 rather than the start of Chapter 8; the physical route order is identical either way.</p>
     <button class="reset" id="resetBtn">Reset all progress</button>
     <span class="savestate" id="saveState"></span>
   </div>
@@ -300,11 +482,11 @@ const MILESTONES = [
  desc:"In the room with the hole and the rope, interacting with the body hanging over it finishes Chapter 4. Coffin 4 through the bottom left door must be opened first."},
 
 // Chapter 5
-{ch:4, after:"start", kind:"boss", title:"The Spider, stealth and chase",
- desc:"The chapter opens under the Spider's shadow: sneak past it in the dark, then survive the scripted chase. The wardrobe room with Poster 12 comes right after you escape."},
-{ch:4, after:"p13", kind:"boss", title:"The Spider, arena fight",
+{ch:4, after:"start", kind:"boss", title:"The Mother, stealth and chase",
+ desc:"The chapter opens under the Mother's shadow, the enormous spider beneath the orphanage: sneak past her in the dark, then survive the scripted chase. The wardrobe room with Poster 12 comes right after you escape."},
+{ch:4, after:"p13", kind:"boss", title:"The Mother, arena fight",
  desc:"Spider kids throw spears each round; throw them back at the boss. It only emerges from two spots: if it appears front and centre stand far LEFT, if it appears from the left stand far RIGHT, and it cannot touch you. When it flees, follow it into the cave."},
-{ch:4, after:"end", kind:"warn", title:"Climbing into the Spider's mouth ends the chapter",
+{ch:4, after:"end", kind:"warn", title:"Climbing into the Mother's mouth ends the chapter",
  desc:"Only 3 collectibles exist in this chapter and all come before the arena. Kill 10 spear kids first if you want the Shot Through the Heart trophy."},
 
 // Chapter 6
@@ -364,7 +546,7 @@ const MILESTONES = [
 
 {ch:8, after:"start", kind:"event", title:"The tank ride",
  desc:"You drive the tank through the ruined city, blasting machine gunners, barricades and buildings. Run over 24 wrecked cars along the way for the Destruction Derby trophy; the auto-aim handles the sheep once the chase begins."},
-{ch:8, after:"start", kind:"boss", title:"The Lamb, final boss",
+{ch:8, after:"start", kind:"boss", title:"The Sheep Beast, final boss",
  desc:"Phase 1: drive forward and keep firing while retreating. Phase 2: when the Lamb grabs the tank, aim at its head and land three precise shots. Phase 3: the floor collapses; keep shooting on the way down and the fall finishes it."},
 {ch:8, after:"start", kind:"event", title:"Inside the sheep",
  desc:"As the sister, sprint from the wreckage until you are swallowed. Inside, climb until the path is blocked and call the boy (L1 / LB) to open the way, then head for the shed with the white rabbit."},
@@ -602,14 +784,14 @@ const BOSSES = [
  desc:"A tall humanoid with an oversized head who hunts entirely by sound.<ol><li><b>Trolley yard:</b> hide silently inside the briefcases and trolleys, and lure him away with thrown noises before moving.</li><li><b>Laundromat:</b> crouch inside the dryers and under the tables, and only move when a dryer makes noise to cover your footsteps.</li><li><b>Ice cream truck finale:</b> fuel the truck at the petrol station. When he attacks through the serving window, crouch behind cover and time crowbar hits until his head drops, then run him over with the truck.</li></ol>"},
 {id:"b2", name:"2 · The Pelican (Chapter 3)",
  desc:"A giant bird with a flapping pouch that commands the seagull swarms and nests in the lighthouse.<ol><li>Beat the seagulls back with the crowbar so you can reach and climb the lighthouse.</li><li>At the top, free your caged friend. This immediately triggers the chase.</li><li>Sprint back down and run WITHOUT stopping all the way to the barn; if the Pelican catches you, you die instantly.</li><li>Inside the barn, follow the fleeing pigs through the gate on the right. The Pelican is trapped in the burning barn behind you.</li></ol>"},
-{id:"b3", name:"3 · The Spider (Chapter 5)",
+{id:"b3", name:"3 · The Mother, the Spider (Chapters 4-5)",
  desc:"First a stealth section, then a chase, then a proper arena fight.<ol><li>In the arena, spider kids appear and throw spears at you each time the Spider retreats. Pick a spear up and throw it back or at the boss.</li><li>The Spider only emerges from two spots: if it appears front and centre, stand at the far LEFT; if it appears from the left, stand at the far RIGHT. It cannot hit you from there.</li><li>Hit it with thrown spears each round until it flees, then follow it into its cave and climb into its mouth.</li></ol>",
  tip:"Trophy hunters: kill 10 of the spear-throwing kids with returned spears BEFORE finishing the Spider for the Shot Through the Heart trophy."},
 {id:"b4", name:"4 · The Brook Horse (Chapter 6)",
  desc:"The huge sea creature blocking the open water. You fight it with the island cannon.<ol><li>Sail to the central island and grab a cannon shell from the red glowing crate.</li><li>Load it together: hold the hatch wheel while your partner inserts the shell, then press the wall switch to open the window.</li><li>Rotate the cannon towards the creature and fire. Once it sinks, sail to the shipwreck, climb the cliff and take the lift down.</li><li>Interact with the wounded horse to pluck its eye. The moment it stirs, sprint back to the lift and ascend.</li><li>Insert the eye into the whale's empty socket to open your escape route (and grab both Diving Helmet Masks here).</li></ol>"},
 {id:"b5", name:"5 · The Sniper (Chapter 8)",
  desc:"An unseen marksman who kills anything that steps into the light.<ol><li>Stay out of lit areas and open windows; darkness and cover are your only protection while exiting the building.</li><li>In the garage, dash to the middle car, push the RIGHT car into the next one and pull the LEFT car back, so the right car rolls downhill.</li><li>Use the rolling car as moving cover to reach the yellow bus, which holds a rocket launcher.</li><li>Aim at the clock tower where the Sniper hides and fire one rocket to end the fight instantly.</li></ol>"},
-{id:"b6", name:"6 · The Lamb (Chapter 9, final boss)",
+{id:"b6", name:"6 · The Sheep Beast, the Lamb (Chapter 9, final boss)",
  desc:"The colossal sheep that has stalked you all game, fought from a tank.<ol><li>Stun the tank crew by throwing grenades at the tank, then take it for yourself.</li><li><b>Phase 1:</b> simply drive forward down the street and let the tank's auto-aim handle the pursuing Lamb.</li><li><b>Phase 2:</b> when the Lamb grabs the tank, aim carefully at its head and land three precise headshots.</li><li><b>Phase 3:</b> the floor shatters and the tank plummets. Keep firing on the way down to stagger the Lamb; the fall itself finishes it off.</li></ol>"}
 ];
 
@@ -869,6 +1051,23 @@ function refreshCounts(){
   refreshBossCount();
   updateMiniBars(null);
 }
+
+// ---- Tabs ----
+const tabTrackerBtn = document.getElementById("tabBtnTracker");
+const tabBestiaryBtn = document.getElementById("tabBtnBestiary");
+const tabTrackerEl = document.getElementById("tabTracker");
+const tabBestiaryEl = document.getElementById("tabBestiary");
+function switchTab(bestiary){
+  tabTrackerEl.hidden = bestiary;
+  tabBestiaryEl.hidden = !bestiary;
+  tabTrackerBtn.classList.toggle("active", !bestiary);
+  tabBestiaryBtn.classList.toggle("active", bestiary);
+  tabTrackerBtn.setAttribute("aria-selected", String(!bestiary));
+  tabBestiaryBtn.setAttribute("aria-selected", String(bestiary));
+  window.scrollTo({top:0});
+}
+tabTrackerBtn.addEventListener("click", ()=>switchTab(false));
+tabBestiaryBtn.addEventListener("click", ()=>switchTab(true));
 
 document.getElementById("resetBtn").addEventListener("click", async ()=>{
   if (!confirm("Reset all ticked items?")) return;
