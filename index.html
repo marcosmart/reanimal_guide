@@ -9,10 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bog:#131511; --panel:#1c1f19; --panel2:#22261e; --line:#33382c;
-    --ink:#e8e2d0; --dim:#9a9684; --amber:#e3a53f; --red:#c04a35;
-    --mask:#e3a53f; --poster:#5fa8a0; --statue:#a487cf; --critter:#8fae52;
-    --coffin:#c04a35; --chair:#8f8b7a; --boss:#d96b6b;
+    /* Palette drawn from Reanimal's key art: abyssal blue-green seas,
+       pale ghost-light, drowned fog, bone masks and blood accents */
+    --bog:#0a1214; --panel:#101b1d; --panel2:#152325; --line:#253b3b;
+    --ink:#d9e4de; --dim:#87998f; --amber:#ea6a3d; --red:#c13a33;
+    --mask:#d6cfb8; --poster:#c7a04b; --statue:#9b8fc0; --critter:#7fa05a;
+    --coffin:#b8352e; --chair:#8fa39c; --boss:#c25b52;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -20,7 +22,7 @@
     background:var(--bog); color:var(--ink);
     font-family:'Public Sans',system-ui,sans-serif;
     font-size:15px; line-height:1.55;
-    background-image:radial-gradient(ellipse at 50% -10%, #23271d 0%, var(--bog) 60%);
+    background-image:radial-gradient(ellipse at 50% -10%, #14262a 0%, var(--bog) 60%);
   }
   .wrap{max-width:860px; margin:0 auto; padding:20px 14px 90px;}
   header{margin-bottom:18px;}
@@ -37,7 +39,7 @@
 
   .warn{
     margin:16px 0; padding:12px 14px; border-left:4px solid var(--red);
-    background:linear-gradient(90deg, rgba(192,74,53,.14), transparent 70%);
+    background:linear-gradient(90deg, rgba(193,58,51,.16), transparent 70%);
     border-radius:0 8px 8px 0; font-size:.9rem;
   }
   .warn strong{color:#e88b74;}
@@ -49,8 +51,8 @@
   .prog-top{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap;}
   .prog-title{font-family:'Special Elite',monospace; font-size:1.05rem;}
   .prog-count{font-family:'Special Elite',monospace; color:var(--amber); font-size:1.3rem;}
-  .bar{height:10px; background:#0d0f0b; border-radius:6px; overflow:hidden; margin:10px 0 12px; border:1px solid var(--line);}
-  .bar > div{height:100%; width:0%; background:linear-gradient(90deg,#7a5a1f,var(--amber)); transition:width .4s ease;}
+  .bar{height:10px; background:#060c0d; border-radius:6px; overflow:hidden; margin:10px 0 12px; border:1px solid var(--line);}
+  .bar > div{height:100%; width:0%; background:linear-gradient(90deg,#8a3a1e,var(--amber)); transition:width .4s ease;}
   .cats{display:grid; grid-template-columns:repeat(auto-fit,minmax(118px,1fr)); gap:8px;}
   .cat{
     background:var(--panel2); border:1px solid var(--line); border-radius:8px;
@@ -60,7 +62,7 @@
   .cat .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}
 
   .toolbar{
-    position:sticky; top:0; z-index:20; background:rgba(19,21,17,.94);
+    position:sticky; top:0; z-index:20; background:rgba(10,18,20,.94);
     backdrop-filter:blur(6px); padding:10px 0; margin:6px -2px 14px;
     border-bottom:1px solid var(--line);
     display:flex; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch;
@@ -71,7 +73,7 @@
     color:var(--dim); border-radius:999px; padding:6px 13px; font-size:.8rem;
     font-family:inherit; cursor:pointer; white-space:nowrap;
   }
-  .chip.active{color:#141511; background:var(--amber); border-color:var(--amber); font-weight:700;}
+  .chip.active{color:#0a1214; background:var(--amber); border-color:var(--amber); font-weight:700;}
   .chip:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
 
   .chapter{margin:26px 0 8px;}
@@ -95,12 +97,12 @@
   .badges{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:4px;}
   .badge{
     font-size:.66rem; letter-spacing:.08em; text-transform:uppercase;
-    padding:2px 8px; border-radius:4px; font-weight:700; color:#131511;
+    padding:2px 8px; border-radius:4px; font-weight:700; color:#0a1214;
   }
   .b-mask{background:var(--mask);} .b-poster{background:var(--poster);}
   .b-statue{background:var(--statue);} .b-critter{background:var(--critter);}
-  .b-coffin{background:var(--coffin); color:#fbe9e4;} .b-chair{background:var(--chair);}
-  .b-boss{background:var(--boss); color:#2a0d0d;}
+  .b-coffin{background:var(--coffin); color:#f4e3df;} .b-chair{background:var(--chair);}
+  .b-boss{background:var(--boss); color:#230a08;}
   .b-miss{background:transparent; color:#e88b74; border:1px solid var(--red);}
   .i-name{font-weight:700; font-size:1rem; margin-bottom:4px;}
   .i-desc{color:var(--ink); font-size:.9rem;}
@@ -114,9 +116,40 @@
   .imgs a{flex:1 1 200px; max-width:340px; display:block;}
   .imgs img{
     width:100%; border-radius:8px; border:1px solid var(--line); display:block;
-    background:#0d0f0b; aspect-ratio:16/9; object-fit:cover;
+    background:#060c0d; aspect-ratio:16/9; object-fit:cover;
   }
   .img-cap{font-size:.7rem; color:var(--dim); margin-top:6px;}
+
+  .mini-prog{margin-top:10px;}
+  .mp-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:.72rem; color:var(--dim); margin-bottom:4px;
+  }
+  .mp-pct{
+    font-family:'Special Elite',monospace; color:var(--amber); font-size:.85rem;
+  }
+  .mp-bar{
+    height:6px; background:#060c0d; border:1px solid var(--line);
+    border-radius:4px; overflow:hidden;
+  }
+  .mp-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg,#8a3a1e,var(--amber));
+    transition:width .6s cubic-bezier(.22,1,.36,1);
+  }
+  .mini-prog.bump .mp-bar{animation:mpGlow .7s ease;}
+  .mini-prog.bump .mp-pct{animation:mpPop .45s ease;}
+  @keyframes mpGlow{
+    0%{box-shadow:0 0 0 rgba(234,106,61,0);}
+    35%{box-shadow:0 0 12px rgba(234,106,61,.6);}
+    100%{box-shadow:0 0 0 rgba(234,106,61,0);}
+  }
+  @keyframes mpPop{
+    0%{transform:scale(1);}
+    40%{transform:scale(1.25);}
+    100%{transform:scale(1);}
+  }
+  .mp-pct{display:inline-block;}
 
   .bosses-intro{color:var(--dim); font-size:.9rem; margin-bottom:12px; max-width:62ch;}
 
@@ -504,7 +537,19 @@ function imgsHTML(it){
   }).join("");
 }
 
-function itemHTML(it, badgeClass, badgeLabel){
+function miniProgHTML(it, isBoss){
+  const label = isBoss ? "Bosses beaten" : TYPES[it.type].label + "s";
+  return `
+    <div class="mini-prog" data-boss="${isBoss?1:0}" data-type="${isBoss?"boss":it.type}">
+      <div class="mp-row">
+        <span class="mp-label">${label}: <span class="mp-cat">0/0</span> · ${isBoss ? "Boss progress" : "Collection"}</span>
+        <span class="mp-pct" data-val="0">0%</span>
+      </div>
+      <div class="mp-bar"><div class="mp-fill"></div></div>
+    </div>`;
+}
+
+function itemHTML(it, badgeClass, badgeLabel, isBoss){
   const imgs = imgsHTML(it);
   return `
   <article class="item ${checked.has(it.id)?"done":""}" data-id="${it.id}">
@@ -521,9 +566,57 @@ function itemHTML(it, badgeClass, badgeLabel){
         <p class="i-desc">${it.desc}</p>
         ${it.tip ? `<p class="i-tip">${it.tip}</p>` : ""}
         ${imgs ? `<div class="imgs">${imgs}</div><p class="img-cap">Screenshots: PowerPyx. Tap to open full size.</p>` : ""}
+        ${miniProgHTML(it, isBoss)}
       </div>
     </div>
   </article>`;
+}
+
+function animateNumber(el, from, to, suffix){
+  if (from === to){ el.textContent = to + suffix; return; }
+  const dur = 500, start = performance.now();
+  function step(now){
+    const t = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(from + (to - from) * eased) + suffix;
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function updateMiniBars(changedId){
+  const collDone = DATA.filter(d=>checked.has(d.id)).length;
+  const collPct = Math.round(collDone / DATA.length * 100);
+  const bossDone = BOSSES.filter(b=>checked.has(b.id)).length;
+  const bossPct = Math.round(bossDone / BOSSES.length * 100);
+
+  document.querySelectorAll(".mini-prog").forEach(mp=>{
+    const isBoss = mp.dataset.boss === "1";
+    const pct = isBoss ? bossPct : collPct;
+    const type = mp.dataset.type;
+    let catText;
+    if (isBoss){
+      catText = `${bossDone}/${BOSSES.length}`;
+    } else {
+      const all = DATA.filter(d=>d.type===type);
+      const dn = all.filter(d=>checked.has(d.id)).length;
+      catText = `${dn}/${all.length}`;
+    }
+    mp.querySelector(".mp-cat").textContent = catText;
+    mp.querySelector(".mp-fill").style.width = pct + "%";
+    const pctEl = mp.querySelector(".mp-pct");
+    const prev = Number(pctEl.dataset.val || 0);
+    pctEl.dataset.val = pct;
+    const item = mp.closest(".item");
+    if (item && item.dataset.id === changedId){
+      animateNumber(pctEl, prev, pct, "%");
+      mp.classList.remove("bump");
+      void mp.offsetWidth; /* restart the animation */
+      mp.classList.add("bump");
+    } else {
+      pctEl.textContent = pct + "%";
+    }
+  });
 }
 
 function bindChecks(container, onChange){
@@ -534,6 +627,7 @@ function bindChecks(container, onChange){
       saveState();
       e.target.closest(".item").classList.toggle("done", e.target.checked);
       onChange();
+      updateMiniBars(id);
     });
   });
 }
@@ -553,7 +647,7 @@ function render(){
     const chDone = chAll.filter(d=>checked.has(d.id)).length;
     html += `<section class="chapter" data-ch="${chIdx}">
       <div class="ch-head"><h2>${chName}</h2><span class="ch-count">${chDone}/${chAll.length} found</span></div>
-      ${items.map(it=>itemHTML(it, TYPES[it.type].cls, TYPES[it.type].label)).join("")}
+      ${items.map(it=>itemHTML(it, TYPES[it.type].cls, TYPES[it.type].label, false)).join("")}
     </section>`;
   });
   list.innerHTML = html || '<p class="sub" style="margin-top:20px">Nothing matches this filter. Well done.</p>';
@@ -563,9 +657,10 @@ function render(){
 
 function renderBosses(){
   const box = document.getElementById("bossList");
-  box.innerHTML = BOSSES.map(b=>itemHTML(b, "b-boss", "Boss")).join("");
+  box.innerHTML = BOSSES.map(b=>itemHTML(b, "b-boss", "Boss", true)).join("");
   bindChecks(box, refreshBossCount);
   refreshBossCount();
+  updateMiniBars(null);
 }
 function refreshBossCount(){
   const dn = BOSSES.filter(b=>checked.has(b.id)).length;
@@ -593,6 +688,7 @@ function refreshCounts(){
     if (c) c.textContent = `${chDone}/${chAll.length} found`;
   });
   refreshBossCount();
+  updateMiniBars(null);
 }
 
 document.getElementById("resetBtn").addEventListener("click", async ()=>{
