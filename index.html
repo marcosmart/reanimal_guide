@@ -160,6 +160,9 @@
   }
   .milestone.k-boss{border-left-color:var(--boss);}
   .milestone.k-warn{border-left-color:var(--red); background:rgba(193,58,51,.08);}
+  .milestone.k-lore{border-left-color:#d9b356; background:rgba(217,179,86,.06); border-style:solid;}
+  .milestone.k-lore .ms-tag{background:#d9b356; color:#231a06;}
+  .milestone.k-lore .ms-desc{color:#b3a887;}
   .ms-tag{
     flex:0 0 auto; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase;
     font-weight:700; padding:2px 7px; border-radius:4px; margin-top:2px;
@@ -195,7 +198,7 @@
   <header>
     <div class="eyebrow">Reanimal · Nintendo Switch 2 · 100% Tracker</div>
     <h1>Every Mask, Every Discoverable &amp; Every Boss</h1>
-    <p class="sub">All 63 pickups across the 9 chapters: 18 Masks, 20 Posters, 5 Hidden Rabbit Statues, 5 Critters, 5 Coffins and 10 Rest Your Legs seats, plus strategies for all 6 main bosses at the bottom. Route milestones between the pickups mark bosses, key story events and, in red, points of no return, so you always know when it is safe to explore and when progressing will lock an area behind you. Each pickup also counts as a Secret (47 in total). Tick items as you collect them and your progress is saved automatically. Tap a screenshot to open it full size.</p>
+    <p class="sub">All 63 pickups across the 9 chapters: 18 Masks, 20 Posters, 5 Hidden Rabbit Statues, 5 Critters, 5 Coffins and 10 Rest Your Legs seats, plus strategies for all 6 main bosses at the bottom. Route milestones between the pickups mark bosses, key story events and, in red, points of no return. Gold "Worth a look" cards point out lore moments and easter eggs that cost nothing to miss but reward the curious; they are written spoiler-free, so they tell you where to look, never what it means. Each pickup also counts as a Secret (47 in total). Tick items as you collect them and your progress is saved automatically. Tap a screenshot to open it full size.</p>
   </header>
 
   <div class="warn">
@@ -251,6 +254,8 @@ const MILESTONES = [
  desc:"The game opens with you sailing towards the buoys; a cutscene pulls your sister from the water. On the beach, open the briefcases until you find the key, then enter the Mill. The sewers, giant fan and spinning boiler puzzle follow, which is where the first two masks live."},
 {ch:0, after:"c3", kind:"warn", title:"Do not leave the rails yet",
  desc:"The draisine ride over the bridge is next. After crossing, get OFF at the junction: Coffin 1 (through the train wrecks on the right) and Rabbit Statue 1 (crack at the tunnel end) are both collected around the rails before you continue. Both are missable for the secret ending and Rabbit Head Mask."},
+{ch:0, after:"s1", kind:"lore", title:"The room of rabbits",
+ desc:"The hidden chamber at the end of the handcar tunnel (the same crack where Rabbit Statue 1 sits) contains five rabbits. Count them, look at how they are arranged, and hold on to that number. Enough said."},
 {ch:0, after:"s1", kind:"boss", title:"The Sniffer, first stealth",
  desc:"Beyond the tunnel you reach the trolley yard. The Sniffer hunts purely by sound: crouch behind and inside the stacked briefcases and carriages, and only move while he is distracted. Being heard means death."},
 {ch:0, after:"s1", kind:"event", title:"The saw and the ice cream truck",
@@ -261,6 +266,8 @@ const MILESTONES = [
 // Chapter 2
 {ch:1, after:"start", kind:"event", title:"Arrival in the village",
  desc:"You explore the abandoned village on foot. The clothing store with the Pig Head is one of the first buildings, so check it before heading deeper towards the cinema."},
+{ch:1, after:"p4", kind:"lore", title:"Sit through the film",
+ desc:"Inside the cinema, a film is playing on the big screen: rabbits at play, and then something less innocent. Take a seat and watch it through before pressing on. It feels like a curio now, but it quietly frames a great deal of what follows, and it is easily missed if you treat the room as a corridor."},
 {ch:1, after:"p4", kind:"warn", title:"Cutting the cinema chain progresses the story",
  desc:"The chained door in the cinema pushes you forward. Grab Poster 4 from the entrance shelf first, and remember you must come back later with the crowbar for the toilet seat, so this area is revisited."},
 {ch:1, after:"p5", kind:"boss", title:"The Sniffer, laundromat stealth",
@@ -275,15 +282,15 @@ const MILESTONES = [
  desc:"You return to the Chapter 1 beach with your crowbar. Pry the fence door open, climb up, fetch the wheel, and open the sluice gates (open the first one only about 1.5 turns, jump across, open the second fully, then finish the first). The minefield sailing begins after; dodging 20 mines in one playthrough earns a trophy."},
 {ch:2, after:"p6", kind:"event", title:"You gain the harpoons",
  desc:"After the flooded library chase, interact with the body on the sofa to obtain the boat harpoons. From here you can destroy mines, which unlocks the two coffin detours below. Do them BEFORE entering the hotel."},
-{ch:2, after:"m6", kind:"warn", title:"Explore the open sea fully before the lighthouse",
- desc:"The open sea around the cannon island is a hub: Coffin 3's alcove, the flower field beach with the Deer Head, and the pig barn with Rabbit Statue 2 are all here. The lighthouse triggers the chase that pushes you out of the area."},
+{ch:2, after:"cf3", kind:"warn", title:"Finish your sailing before the long ladder",
+ desc:"The open sea around the cannon island is the boat hub for this chapter: Coffin 3's hidden alcove and a few optional mines (three extra ones sit around a stone outcropping on the right) are all out here. Parking at the far-right beach and climbing the long ladder takes you up on foot to the flower field, the pig barn and eventually the lighthouse, so wrap up everything you want to do by boat first. The lighthouse then triggers the chase that ends the chapter's exploration."},
 {ch:2, after:"p7", kind:"boss", title:"The Pelican",
  desc:"Climb the lighthouse and free your caged friend at the top; this immediately starts the chase. Sprint back down and run WITHOUT stopping all the way to the barn; being caught is instant death. Follow the fleeing pigs through the right gate to trap the bird in the burning barn."},
-{ch:2, after:"end", kind:"warn", title:"The bench and the yellow bus end the chapter",
+{ch:2, after:"p7", kind:"warn", title:"The bench and the yellow bus end the chapter",
  desc:"Sitting on the bus station bench starts the ending sequence and boarding the bus locks it in. Poster 8 on the second pylon must be taken first."},
 
 // Chapter 4
-{ch:3, after:"start", kind:"event", title:"The clock tower orphanage",
+{ch:3, after:"p9", kind:"event", title:"The clock tower orphanage",
  desc:"Off the bus, climb the ladder to the roof, pull the clock hands until the chime, then boost your sister through the broken clock face. The petrified children room inside is the hub for the first three finds here."},
 {ch:3, after:"m7", kind:"event", title:"Down the wardrobe hatch",
  desc:"Break the statue, pry the wardrobe open and drop through the hatch. From here the orphanage turns hostile: corridors of spider kids, the food hall throne fight (Crown Head) and the stage room with the hanging pig all follow in sequence."},
@@ -326,7 +333,35 @@ const MILESTONES = [
 {ch:7, after:"p20", kind:"warn", title:"The battlefield ends the chapter",
  desc:"Past the lift poster you reach the battlefield: stun the tank by throwing grenades at it and climb in. This rolls straight into Chapter 9, so make sure all 63 collectibles are ticked; there are none in the finale."},
 
-// Chapter 9
+// ---- Worth a look: spoiler-free lore moments and easter eggs ----
+{ch:0, after:"start", kind:"lore", title:"The five watchers",
+ desc:"Very early on, five silhouettes peer down at you from above. Pause and take them in properly rather than hurrying past. Do not worry about who they are yet; just remember the image, because the game will reward you for it later."},
+{ch:0, after:"start", kind:"lore", title:"Small toys the game never explains",
+ desc:"A few playful details worth trying when things are calm: as the sister, shine the torch on your brother's face and watch his reaction; with the light off, stand idle for a while and the two will quietly sit down for a rest together; and a sprint into a crouch turns into a slide tackle on your sibling. None of it matters mechanically, all of it adds character."},
+{ch:0, after:"cf1", kind:"lore", title:"Linger at each coffin",
+ desc:"Whenever you open one of the five coffins, do not rush off immediately. Stay a moment and watch what emerges and where it goes. The game never comments on it, but it is quietly building something across the whole run."},
+{ch:1, after:"c5", kind:"lore", title:"The Sniffer's strange mercy",
+ desc:"In the prison cell section, being caught by the Sniffer does not always end the way you would expect: sometimes he locks you in a cell instead. The crowbar opens the door. It is worth experiencing once, and worth thinking about why he does it."},
+
+{ch:2, after:"cf2", kind:"lore", title:"Watch the HOTEL sign",
+ desc:"As you harpoon your way through the mines guarding the hotel entrance, glance at the letters above: one of them tilts. Players of a certain monochrome classic will recognise the wink immediately."},
+{ch:2, after:"cf2", kind:"lore", title:"A familiar face in the flooded hotel",
+ desc:"Inside the hotel, after dealing with one of the bloated lurkers, keep an eye on the walls: there is a portrait of a lady wearing a porcelain mask. It changes nothing in the story, but it is a lovely, quiet nod to the developers' previous game, hiding in plain sight for those who look up from the water."},
+{ch:2, after:"s2", kind:"lore", title:"Spend a moment with the pigs",
+ desc:"In the barn you can get close to the pigs, and one in particular can be interacted with. Pay attention to how the animals behave around you. Animals in this world seem to notice things that people cannot, and the game trusts you to draw your own conclusions."},
+
+{ch:3, after:"p9", kind:"lore", title:"Study the petrified children",
+ desc:"The first room of the clock tower rewards a slow walk-through. The frozen figures, their poses, and what surrounds them sketch out what this place used to be far better than any note could. Give it a minute before you start hunting collectibles."},
+
+{ch:5, after:"p15", kind:"lore", title:"Take your time in the whale chamber",
+ desc:"The room with the whale is one of the most striking spaces in the game, and you pass through it at two very different moments. Look around properly on both visits, before and after the dive; the details in here are doing a lot of silent storytelling."},
+
+{ch:6, after:"m14", kind:"lore", title:"The soldiers' last moments",
+ desc:"The soldiers you encounter in the trenches are not all immediate threats; several are scripted vignettes that play out as you approach. Rather than sprinting past, watch each one unfold from a safe distance. Grim as they are, they carry most of the island's war story on their backs."},
+
+{ch:7, after:"p20", kind:"lore", title:"Give the late flashback your full attention",
+ desc:"Near the end of the journey the game shows you a scene from the past. No spoilers here: just do not check your phone when it arrives. It recontextualises nearly everything you have seen, including several of the smaller moments flagged in this guide."},
+
 {ch:8, after:"start", kind:"event", title:"The tank ride",
  desc:"You drive the tank through the ruined city, blasting machine gunners, barricades and buildings. Run over 24 wrecked cars along the way for the Destruction Derby trophy; the auto-aim handles the sheep once the chase begins."},
 {ch:8, after:"start", kind:"boss", title:"The Lamb, final boss",
@@ -749,7 +784,7 @@ function bindChecks(container, onChange){
   });
 }
 
-const MS_TAGS = {event:"Event", boss:"Boss", warn:"Point of no return"};
+const MS_TAGS = {event:"Event", boss:"Boss", warn:"Point of no return", lore:"Worth a look"};
 function milestoneHTML(m){
   return `<div class="milestone k-${m.kind}">
     <span class="ms-tag">${MS_TAGS[m.kind]}</span>
