@@ -367,6 +367,7 @@
   <nav class="tabs" role="tablist" aria-label="Guide sections">
     <button class="tab-btn active" id="tabBtnTracker" role="tab" aria-selected="true">Tracker &amp; Route</button>
     <button class="tab-btn" id="tabBtnBestiary" role="tab" aria-selected="false">Bestiary &amp; Lore</button>
+    <button class="tab-btn" id="tabBtnBoss" role="tab" aria-selected="false">Boss Strategies</button>
     <button class="theme-btn" id="themeBtn" aria-label="Change colour theme" title="Theme: Drowned Ember (tap to change)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg>
     </button>
@@ -395,12 +396,6 @@
   <nav class="toolbar" id="filters" aria-label="Filter by collectible type"></nav>
 
   <main id="list"></main>
-
-  <section class="chapter" id="bossSection">
-    <div class="ch-head"><h2>Boss Strategies · How to beat all 6</h2><span class="ch-count" id="bossCount">0/6 beaten</span></div>
-    <p class="bosses-intro">Six main bosses stand between you and the credits, alongside a handful of easy mini encounters. Most fights are about running, hiding or a set-piece rather than raw combat, so knowing the trick in advance saves a lot of deaths. Tick each one off as you beat it (bosses do not count towards the 63 collectibles).</p>
-    <div id="bossList"></div>
-  </section>
 
   </div><!-- /tabTracker -->
 
@@ -539,6 +534,18 @@
     </section>
   </div><!-- /tabBestiary -->
 
+  <div id="tabBoss" hidden>
+    <header>
+      <div class="eyebrow">Reanimal · Field Manual</div>
+      <h1>Boss Strategies</h1>
+      <p class="sub">How to beat all six main bosses, alongside a handful of easy mini encounters. Most fights are about running, hiding or a set-piece rather than raw combat, so knowing the trick in advance saves a lot of deaths. Tick each one off as you beat it; bosses do not count towards the 63 collectibles. For where each fight sits on the route, see the boss milestones over in the Tracker tab.</p>
+    </header>
+    <section class="chapter" id="bossSection">
+      <div class="ch-head"><h2>How to beat all 6</h2><span class="ch-count" id="bossCount">0/6 beaten</span></div>
+      <div id="bossList"></div>
+    </section>
+  </div><!-- /tabBoss -->
+
   <div class="footer-note">
     <p>Mask names, order and locations follow the IGN mask guide supplied by you, cross-referenced with the PowerPyx chronological route (screenshots © PowerPyx, linked from <a href="https://www.powerpyx.com/reanimal-all-collectible-locations-guide/" target="_blank" rel="noopener">their guide</a>). Posters, statues, coffins, critters and seats follow PowerPyx; boss strategies are based on the Power Up Gaming boss guide and chapter walkthroughs; enemy names and bestiary background draw on the community REANIMAL wiki, with bestiary screenshots linked from the <a href="https://questduo.com/reanimal/" target="_blank" rel="noopener">QuestDuo walkthrough</a>. If an image does not load, use the source link for the full gallery. Note: some guides place the war hospital at the end of Chapter 7 rather than the start of Chapter 8; the physical route order is identical either way.</p>
     <button class="reset" id="resetBtn">Reset all progress</button>
@@ -624,6 +631,8 @@ const MILESTONES = [
 // Chapter 5
 {ch:4, after:"start", kind:"boss", title:"The Mother, stealth and chase",
  desc:"The chapter opens under the Mother's shadow, the enormous spider beneath the orphanage: sneak past her in the dark, then survive the scripted chase. The wardrobe room with Poster 12 comes right after you escape."},
+{ch:4, after:"p13", kind:"lore", title:"The wall of animal drawings",
+ desc:"Right by Poster 13 on the balcony, stop and look at the hand-drawn prints pinned to the wall. One shows a rabbit haloed in golden light; others show pigs standing upright on their hind legs like people. They are folk-art renderings of the game's recurring animals, not collectibles, so there is nothing to pick up here. Note the upright pigs in particular and file them alongside the rabbit imagery and the talking pig from the barn. The animals are the game's private language, and this wall is one of the places it writes that language down. What it adds up to is yours to piece together."},
 {ch:4, after:"p13", kind:"boss", title:"The Mother, arena fight",
  desc:"Spider kids throw spears each round; throw them back at the boss. It only emerges from two spots: if it appears front and centre stand far LEFT, if it appears from the left stand far RIGHT, and it cannot touch you. When it flees, follow it into the cave."},
 {ch:4, after:"end", kind:"warn", title:"Climbing into the Mother's mouth ends the chapter",
@@ -667,7 +676,7 @@ const MILESTONES = [
 {ch:0, after:"cf1", kind:"lore", title:"Linger at each coffin",
  desc:"Whenever you open one of the five coffins, do not rush off immediately. Stay a moment and watch what emerges and where it goes. The game never comments on it, but it is quietly building something across the whole run."},
 {ch:0, after:"cf1", kind:"lore", title:"The fox in the corner",
- desc:"Back on the handcar and right before it trundles into the tunnel, glance up at the TOP-RIGHT corner of the screen. Something is sitting up there watching you leave. Note what it is; foxes turn up more than once in this game's imagery, and this is the first time one is watching back."},
+ desc:"Back on the handcar and right before it trundles into the tunnel, glance up at the TOP-RIGHT corner of the screen. Something is sitting up there watching you leave. Note what it is: the very same fox turns up again on the screen inside the Chapter 2 cinema, so once you have spotted it here, watch for its return there. It clearly meant more to the game than it lets on."},
 {ch:1, after:"c5", kind:"lore", title:"The Sniffer's strange mercy",
  desc:"In the prison cell section, being caught by the Sniffer does not always end the way you would expect: sometimes he locks you in a cell instead. The crowbar opens the door. It is worth experiencing once, and worth thinking about why he does it."},
 
@@ -690,6 +699,8 @@ const MILESTONES = [
 
 {ch:6, after:"m14", kind:"lore", title:"The soldiers' last moments",
  desc:"The soldiers you encounter in the trenches are not all immediate threats; several are scripted vignettes that play out as you approach. Rather than sprinting past, watch each one unfold from a safe distance. Grim as they are, they carry most of the island's war story on their backs."},
+{ch:6, after:"m14", kind:"lore", title:"Wearable gear that is not a mask",
+ desc:"You can lift a helmet from a soldier who has just taken his own life and wear it. Go ahead if you like the grim look, but know that it is set dressing, not a collectible: it is NOT one of the 18 masks and does not count toward Beneath the Mask. The rule of thumb for the whole game is that a real mask is a specific named item, usually taken from a critter or hidden away, whereas battlefield gear, party hats and similar odds and ends are just wearable flavour. The same idea as there being more sittable chairs than counting seats."},
 
 {ch:7, after:"p20", kind:"lore", title:"Give the late flashback your full attention",
  desc:"Near the end of the journey the game shows you a scene from the past. No spoilers here: just do not check your phone when it arrives. It recontextualises nearly everything you have seen, including several of the smaller moments flagged in this guide."},
@@ -848,8 +859,8 @@ const DATA = [
  desc:"After escaping the big spider chase, in the next room go RIGHT and pry the wardrobe open, then interact with it again to squeeze through a hidden gap behind it. The poster is in the secret room beyond. No masks exist in this chapter.",
  imgs:[42,43]},
 {id:"c10", ch:4, type:"chair", name:"Seat 10 of 10 · Chair or couch",
- desc:"Return to the previous room and sit on either the chair in the middle or the couch on the left. If you have every seat so far, the Take a Load Off trophy unlocks here.",
- tip:"Missed one earlier? More seats appear later, including a chair on the next outdoor balcony.",
+ desc:"Return to the previous room and sit on either the chair in the middle or the couch on the left. If you have used every seat so far, this is the tenth and the Take a Load Off trophy (PS5) unlocks here.",
+ tip:"These ten are one valid set, not the only seats that count. The game has more than ten sittable objects, so any ten will do: on PS5 the trophy is very hard to miss if you sit on everything that plays the sit animation. There is no in-game tracker on Switch, so this checklist is your only count there. Extra non-required seats appear later too, such as a chair on the Chapter 5 balcony by Poster 13, which counts as a sit but is surplus once you have ten.",
  imgs:[44]},
 {id:"p13", ch:4, type:"poster", name:"Poster 13 of 20 · Balcony",
  desc:"Past the small piano in the corridor (play it three times for the Lullabye trophy), go upstairs and take the door on the LEFT out to a balcony holding the poster.",
@@ -1278,7 +1289,7 @@ toTopBtn.addEventListener("click", ()=>{
 toLastBtn.addEventListener("click", ()=>{
   if (!lastChecked) return;
   // The ticked items live in the Tracker tab
-  if (tabTrackerEl.hidden) switchTab(false);
+  if (tabTrackerEl.hidden) switchTab("tracker");
   let el = document.querySelector(`.item[data-id="${lastChecked}"]`);
   if (!el){
     // Hidden by the current filter: fall back to the full list
@@ -1298,21 +1309,22 @@ toLastBtn.addEventListener("click", ()=>{
 updateToTop();
 
 // ---- Tabs ----
-const tabTrackerBtn = document.getElementById("tabBtnTracker");
-const tabBestiaryBtn = document.getElementById("tabBtnBestiary");
-const tabTrackerEl = document.getElementById("tabTracker");
-const tabBestiaryEl = document.getElementById("tabBestiary");
-function switchTab(bestiary){
-  tabTrackerEl.hidden = bestiary;
-  tabBestiaryEl.hidden = !bestiary;
-  tabTrackerBtn.classList.toggle("active", !bestiary);
-  tabBestiaryBtn.classList.toggle("active", bestiary);
-  tabTrackerBtn.setAttribute("aria-selected", String(!bestiary));
-  tabBestiaryBtn.setAttribute("aria-selected", String(bestiary));
+const TAB_DEFS = [
+  {name:"tracker",  btn:document.getElementById("tabBtnTracker"),  el:document.getElementById("tabTracker")},
+  {name:"bestiary", btn:document.getElementById("tabBtnBestiary"), el:document.getElementById("tabBestiary")},
+  {name:"boss",     btn:document.getElementById("tabBtnBoss"),     el:document.getElementById("tabBoss")}
+];
+const tabTrackerEl = TAB_DEFS[0].el;
+function switchTab(name){
+  TAB_DEFS.forEach(t=>{
+    const on = t.name === name;
+    t.el.hidden = !on;
+    t.btn.classList.toggle("active", on);
+    t.btn.setAttribute("aria-selected", String(on));
+  });
   window.scrollTo({top:0});
 }
-tabTrackerBtn.addEventListener("click", ()=>switchTab(false));
-tabBestiaryBtn.addEventListener("click", ()=>switchTab(true));
+TAB_DEFS.forEach(t=> t.btn.addEventListener("click", ()=>switchTab(t.name)));
 
 document.getElementById("resetBtn").addEventListener("click", async ()=>{
   if (!confirm("Reset all ticked items?")) return;
